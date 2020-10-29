@@ -1,7 +1,7 @@
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.2;
 
 import "./Context.sol";
 import "./IERC20.sol";
@@ -116,7 +116,7 @@ contract ERC20 is Context, IERC20 {
 
     /* @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view virtual override returns (uint256) {
+    function allowance(address owner, address spender) public view override virtual  returns (uint256) {
         return _allowances[owner][spender];
     }
 

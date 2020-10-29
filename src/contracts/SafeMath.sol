@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.6.0;
 
-/*
+/**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
  * checks.
  *
@@ -15,11 +16,11 @@ pragma solidity ^0.6.0;
  * class of bugs, so it's recommended to use it always.
  */
 library SafeMath {
-    /*
+    /**
      * @dev Returns the addition of two unsigned integers, reverting on
      * overflow.
      *
-     * Counterpart to Solidity's + operator.
+     * Counterpart to Solidity's `+` operator.
      *
      * Requirements:
      *
@@ -32,7 +33,7 @@ library SafeMath {
         return c;
     }
 
-    /*
+    /**
      * @dev Returns the subtraction of two unsigned integers, reverting on
      * overflow (when the result is negative).
      *
@@ -46,11 +47,11 @@ library SafeMath {
         return sub(a, b, "SafeMath: subtraction overflow");
     }
 
-    /*
+    /**
      * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
      * overflow (when the result is negative).
      *
-     * Counterpart to Solidity's - operator.
+     * Counterpart to Solidity's `-` operator.
      *
      * Requirements:
      *
@@ -63,7 +64,7 @@ library SafeMath {
         return c;
     }
 
-    /*
+    /**
      * @dev Returns the multiplication of two unsigned integers, reverting on
      * overflow.
      *
@@ -87,12 +88,12 @@ library SafeMath {
         return c;
     }
 
-    /*
+    /**
      * @dev Returns the integer division of two unsigned integers. Reverts on
      * division by zero. The result is rounded towards zero.
      *
-     * Counterpart to Solidity's / operator. Note: this function uses a
-     * revert opcode (which leaves remaining gas untouched) while Solidity
+     * Counterpart to Solidity's `/` operator. Note: this function uses a
+     * `revert` opcode (which leaves remaining gas untouched) while Solidity
      * uses an invalid opcode to revert (consuming all remaining gas).
      *
      * Requirements:
@@ -103,8 +104,7 @@ library SafeMath {
         return div(a, b, "SafeMath: division by zero");
     }
 
-
-/*
+    /**
      * @dev Returns the integer division of two unsigned integers. Reverts with custom message on
      * division by zero. The result is rounded towards zero.
      *
@@ -124,11 +124,11 @@ library SafeMath {
         return c;
     }
 
-    /*
+    /**
      * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
      * Reverts when dividing by zero.
      *
-     * Counterpart to Solidity's % operator. This function uses a revert
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
      * opcode (which leaves remaining gas untouched) while Solidity uses an
      * invalid opcode to revert (consuming all remaining gas).
      *
@@ -144,7 +144,7 @@ library SafeMath {
      * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
      * Reverts with custom message when dividing by zero.
      *
-     * Counterpart to Solidity's % operator. This function uses a revert
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
      * opcode (which leaves remaining gas untouched) while Solidity uses an
      * invalid opcode to revert (consuming all remaining gas).
      *

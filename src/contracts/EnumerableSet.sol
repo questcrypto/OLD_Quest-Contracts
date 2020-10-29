@@ -17,7 +17,7 @@ pragma solidity ^0.6.0;
  * contract Example {
  *     // Add the library methods
  *     using EnumerableSet for EnumerableSet.AddressSet;
- * 
+ *
  *     // Declare a set state variable
  *     EnumerableSet.AddressSet private mySet;
  * }
