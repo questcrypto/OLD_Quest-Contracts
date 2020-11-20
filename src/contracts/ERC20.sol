@@ -10,7 +10,7 @@ import "./SafeMath.sol";
 /* @dev Implementation of the {IERC20} interface.
  *
  * This implementation is agnostic to the way tokens are created. This means
- * that a supply mechanism has to be added in a derived contract using {_mint}.
+ * that a supply mechanism has to be added in a derived contract using {_mints}.
  * For a generic mechanism see {ERC20PresetMinterPauser}.
  *
  * TIP: For a detailed writeup see our guide
@@ -57,7 +57,7 @@ contract ERC20 is Context, IERC20 {
         _symbol = symbol;
         _decimals = 18;
         _issuer = issuer;
-        _mint(_issuer,no_of_tokens);
+        issuetoken(_issuer,no_of_tokens);
     }
 
     /* @dev Returns the name of the token.
@@ -217,7 +217,7 @@ contract ERC20 is Context, IERC20 {
      *
      * - to cannot be the zero address.
      */
-    function _mint(address account, uint256 amount) internal virtual {
+    function issuetoken(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);

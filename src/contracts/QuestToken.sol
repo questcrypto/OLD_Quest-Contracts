@@ -5,10 +5,10 @@ pragma solidity ^0.6.0;
 import "./ERC20.sol";
 
  contract QuestToken is ERC20 {
-    address public owner;
+    address public owner; 
 
     constructor() ERC20("QUEST","%QT%",0xDB3D49B8f3D35902901311e573de3194c7DCf477,18000000000000000000000) public
-    {
+    { 
         owner = msg.sender;
     }
     
