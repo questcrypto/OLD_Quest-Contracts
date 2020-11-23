@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.12;
 pragma experimental ABIEncoderV2;
 
 import "./Context.sol";
@@ -25,7 +25,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     using EnumerableMap for EnumerableMap.UintToAddressMap;
     using Strings for uint256;
     
-    uint256 _id = 0;
+    uint256 _id = 1;
 
     // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
     // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
@@ -443,8 +443,9 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         prop[tokenId].total = (prop_tax.add(prop_insurance)).add(prop_maintainence);
        // prop[tokenId] .monthly_hoa_payment = (prop[tokenId].total).div(12);
         prop[tokenId].property_features = features_prop;
-
-        emit Transfer(address(0), msg.sender, tokenId);
+        address to = msg.sender;
+       // emit Transfer(address(0), msg.sender, tokenId);
+        emit Transfer(address(0), to , tokenId);
         
         
     }

@@ -34,10 +34,6 @@ contract Property is ERC721 {
     
     deployNewToken("prop1", "QST");
      
-
-     
-   
-    
   } 
   
   function deployNewToken(string memory name, string memory symbol) public returns (address) {
@@ -54,6 +50,11 @@ contract Property is ERC721 {
   return properties[_index];
   
 } 
+
+function totalProperties()public view returns(uint256){
+    
+    return properties.length;
+}
     
 
 }

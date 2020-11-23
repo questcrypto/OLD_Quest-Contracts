@@ -57,7 +57,7 @@
         "id": 321,
         "nodeType": "ImportDirective",
         "scope": 376,
-        "sourceUnit": 2897,
+        "sourceUnit": 2901,
         "src": "62:23:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -72,10 +72,10 @@
               "id": 323,
               "name": "IERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2896,
+              "referencedDeclaration": 2900,
               "src": "286:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC165_$2896",
+                "typeIdentifier": "t_contract$_IERC165_$2900",
                 "typeString": "contract IERC165"
               }
             },
@@ -85,7 +85,7 @@
           }
         ],
         "contractDependencies": [
-          2896
+          2900
         ],
         "contractKind": "contract",
         "documentation": {
@@ -98,7 +98,7 @@
         "id": 375,
         "linearizedBaseContracts": [
           375,
-          2896
+          2900
         ],
         "name": "ERC165",
         "nodeType": "ContractDefinition",
@@ -292,7 +292,7 @@
           },
           {
             "baseFunctions": [
-              2895
+              2899
             ],
             "body": {
               "id": 353,
@@ -740,7 +740,7 @@
         "id": 321,
         "nodeType": "ImportDirective",
         "scope": 376,
-        "sourceUnit": 2897,
+        "sourceUnit": 2901,
         "src": "62:23:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -755,10 +755,10 @@
               "id": 323,
               "name": "IERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2896,
+              "referencedDeclaration": 2900,
               "src": "286:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC165_$2896",
+                "typeIdentifier": "t_contract$_IERC165_$2900",
                 "typeString": "contract IERC165"
               }
             },
@@ -768,7 +768,7 @@
           }
         ],
         "contractDependencies": [
-          2896
+          2900
         ],
         "contractKind": "contract",
         "documentation": {
@@ -781,7 +781,7 @@
         "id": 375,
         "linearizedBaseContracts": [
           375,
-          2896
+          2900
         ],
         "name": "ERC165",
         "nodeType": "ContractDefinition",
@@ -975,7 +975,7 @@
           },
           {
             "baseFunctions": [
-              2895
+              2899
             ],
             "body": {
               "id": 353,
@@ -1401,7 +1401,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-19T12:40:44.933Z",
+  "updatedAt": "2020-11-20T11:54:11.691Z",
   "devdoc": {
     "details": "Implementation of the {IERC165} interface. Contracts may inherit from this and call {_registerInterface} to declare their support of an interface.",
     "kind": "dev",
