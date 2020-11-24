@@ -10,6 +10,11 @@ contract Property is ERC721 {
   address public proptest;
   mapping(string => bool) _propertyExists;
   
+  struct property_Details{
+      string name;
+      address deployed_Token;
+  }
+  property_Details[] public property_Array;
 
   constructor() ERC721("Property","QST_TKN") public{
       
@@ -25,21 +30,26 @@ contract Property is ERC721 {
                                      uint256 prop_maintainence,
                                      string memory features_prop) public {
    require(!_propertyExists[_property]);
-    properties.push(_property);
-    // uint _id = properties.length; 
+   property_Details memory temp;
+   properties.push(_property);
+   // uint _id = properties.length; 
     
-    _mint(origVal,coins,property_images,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop);
-    _propertyExists[_property] = true;
+   _mint(origVal,coins,property_images,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop);
+   _propertyExists[_property] = true;
+
+   temp.name = _property;
+   temp.deployed_Token = deployNewToken("prop1", "QST");
     
+   property_Array.push(temp);
+   delete temp;
     
-    deployNewToken("prop1", "QST");
-     
   } 
   
   function deployNewToken(string memory name, string memory symbol) public returns (address) {
        ERC20 t = new ERC20( name, symbol, msg.sender,10000);
        proptest = address(t);
        emit TokenCreated(address(t));
+       return proptest;
        
    }
   
