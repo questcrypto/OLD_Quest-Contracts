@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Web3 from 'web3'
 import './App.css';
 import Property from '../abis/Property.json'
+import storehash from './storehash';
+import ipfs from './ipfs';
+import { ThemeProvider } from 'react-bootstrap';
+
 
 class App extends Component {
 
@@ -32,6 +36,7 @@ class App extends Component {
     this.setState({ account: accounts[0] })
     
     const networkId = await web3.eth.net.getId();
+    console.log(networkId);
     const networkData = Property.networks[networkId];
     const chainId = await web3.eth.getChainId();
     console.log(chainId);
@@ -77,11 +82,29 @@ class App extends Component {
     }
   }
 
-  mint = (property,orgValue,coins,propert_image,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop) => {
+  mint = async (property,orgValue,coins,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop) => {
     console.log("I was called")
     console.log(property);
-    this.state.contract.methods.mint(property,orgValue,coins,propert_image,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop).send({ from: this.state.account })
+    
+    var temp = [pro_add_details];
+     
+    console.log(temp);
+
+
+
+    const web3 = window.web3;
+    var hash;
+    // Load account
+    const accounts = await web3.eth.getAccounts();
+    
+   
+    hash = this.state.ipfsHash
+  
+    
+    console.log("/-----/"+hash);
+    this.state.contract.methods.mint(property,orgValue,coins,hash,temp,prop_tax,prop_insurance,prop_maintainence,features_prop).send({ from: accounts[0] })
     .then('receipt', (receipt) => {
+      console.log(receipt)
       console.log("Got response")
       this.setState({
         properties: [...this.state.properties, property]
@@ -93,12 +116,66 @@ class App extends Component {
     super(props)
     this.state = {
       account: '',
-      contract: null,
+      contract: '',
       totalSupply: 0,
-      properties: []
+      properties: [],
+      ipfsHash:'',
+      buffer:'',
+      ethAddress:'',
+      blockNumber:'',
+      transactionHash:'',
+      gasUsed:'',
+      txReceipt: ''
     }
     this.mint = this.mint.bind(this)
   }
+
+  captureFile =(event) => {
+    event.stopPropagation()
+    event.preventDefault()
+    const file = event.target.files[0]
+    let reader = new window.FileReader()
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = () => this.convertToBuffer(reader)    
+  };
+  convertToBuffer = async(reader) => {
+    //file is converted to a buffer to prepare for uploading to IPFS
+      const buffer = await Buffer.from(reader.result);
+    //set this buffer -using es6 syntax
+      this.setState({buffer});
+  };
+
+  getFileIpfsHash = async() => {
+
+    //bring in user's metamask account address
+    const web3 = window.web3;
+    // Load account
+    const accounts = await web3.eth.getAccounts();
+
+    console.log(accounts);
+   
+    console.log('Sending from Metamask account: ' + accounts[0]);
+
+    //obtain contract address from storehash.js
+    const ethAddress= await storehash.options.address;
+    console.log(ethAddress);
+    this.setState({ethAddress});
+    console.log(this.state.ethAddress);
+    console.log(this.state);
+    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+      console.log(err,ipfsHash);
+      console.log(ipfsHash[0].hash);
+      this.setState({ ipfsHash:ipfsHash[0].hash });
+      console.log(this.state);
+      
+      storehash.methods.sendHash(this.state.ipfsHash).send({
+        from: accounts[0]
+      }, (error, transactionHash) => {
+        console.log(transactionHash);
+        this.setState({transactionHash});
+      }); //storehash 
+    }) //await ipfs.add 
+  }; //onSubmit
 
   render() {
     return (
@@ -121,8 +198,23 @@ class App extends Component {
                    <div className="content mr-auto ml-auto">
                     <form onSubmit={(event)=>{
                       event.preventDefault();
+                      this.getFileIpfsHash();
                       const propStr = this.prop.value;
-                      this.mint(propStr);
+                      const assessedValue = this.orgValue.value;
+                      const initialToken = this.coins.value;
+                      const propertyAddress = this.pro_add_details.value;
+                      const _tax = this.prop_tax.value;
+                      const _insurance = this.prop_insurance.value;
+                      const _maintain = this.prop_maintainence.value;
+                      const _features = this.features_prop.value;
+                      this.mint(propStr,
+                                assessedValue,
+                                initialToken,
+                                propertyAddress,
+                                _tax,
+                                _insurance,
+                                _maintain,
+                                _features);
                     }}>
                       <label>
                       Enter Property Name:
@@ -130,31 +222,31 @@ class App extends Component {
                       </label>
                       <label>
                       Enter Assessed value:
-                      <input type="text" name="property"  ref={(input) => { this.orgValue = input }} />
+                      <input type="number" name="property"  ref={(input) => { this.orgValue = input }} />
                       </label>
                       <label>
                       Initial No. of Prop Tokens
-                      <input type="text" name="property"  ref={(input) => { this.coins = input }} />
+                      <input type="number" name="property"  ref={(input) => { this.coins = input }} />
                       </label>
                       <label>
-                      URL for Property Images:
-                      <input type="text" name="property"  ref={(input) => { this.propert_image = input }} />
+                      Upload Property Image:
+                      <input type="file" onChange = {this.captureFile} name="property"  ref={(input) => { this.propert_image = input }} />
                       </label>
                       <label>
                       Enter Property Address
-                      <input type="text" name="property"  ref={(input) => { this.pro_add_details = input }} />
+                      <input type="text" name="property[]"  ref={(input) => { this.pro_add_details = input }} />
                       </label>
                       <label>
                       Enter Tax Amount:
-                      <input type="text" name="property"  ref={(input) => { this.prop_tax = input }} />
+                      <input type="number" name="property"  ref={(input) => { this.prop_tax = input }} />
                       </label>
                       <label>
                       Enter Insurance Amount:
-                      <input type="text" name="property"  ref={(input) => { this.prop_insurance = input }} />
+                      <input type="number" name="property"  ref={(input) => { this.prop_insurance = input }} />
                       </label>
                       <label>
                       Enter Maintenance Amount:
-                      <input type="text" name="property"  ref={(input) => { this.prop_maintainence= input }} />
+                      <input type="number" name="property"  ref={(input) => { this.prop_maintainence= input }} />
                       </label>
                       <label>
                       Property Features

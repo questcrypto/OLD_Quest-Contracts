@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.6.2;
@@ -58,6 +57,7 @@ contract ERC20 is Context, IERC20 {
         _decimals = 18;
         _issuer = issuer;
         issuetoken(_issuer,no_of_tokens);
+       
     }
 
     /* @dev Returns the name of the token.
@@ -221,10 +221,10 @@ contract ERC20 is Context, IERC20 {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
-
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
         emit Transfer(address(0), account, amount);
+        
     }
 
     /* @dev Destroys `amount` tokens from `account`, reducing the

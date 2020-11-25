@@ -5,6 +5,8 @@ pragma experimental ABIEncoderV2;
 import "./ERC721.sol";
 import "./ERC20.sol";
 
+
+
 contract Property is ERC721 {
   string[] public properties;
   address public proptest;
@@ -23,7 +25,7 @@ contract Property is ERC721 {
       event TokenCreated(address tokenAddress);
   function mint(string memory _property,uint256 origVal,
                                      uint256 coins,
-                                     string[] memory property_images,
+                                     string memory property_images_hash,
                                      string[] memory pro_add_details,
                                      uint256 prop_tax,
                                      uint256 prop_insurance,
@@ -34,24 +36,28 @@ contract Property is ERC721 {
    properties.push(_property);
    // uint _id = properties.length; 
     
-   _mint(origVal,coins,property_images,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop);
+   _mint(origVal,coins,property_images_hash,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop);
    _propertyExists[_property] = true;
 
    temp.name = _property;
-   temp.deployed_Token = deployNewToken("prop1", "QST");
+   temp.deployed_Token = deployNewToken("prop1", "QST",origVal);
+
+    deployNewToken("VOUCHER","*V*",origVal);
     
    property_Array.push(temp);
    delete temp;
     
   } 
   
-  function deployNewToken(string memory name, string memory symbol) public returns (address) {
-       ERC20 t = new ERC20( name, symbol, msg.sender,10000);
+  function deployNewToken(string memory name, string memory symbol,uint256 no_of_token) public returns (address) {
+       ERC20 t = new ERC20( name, symbol,msg.sender,no_of_token);
        proptest = address(t);
        emit TokenCreated(address(t));
        return proptest;
        
    }
+   
+   
   
   
 

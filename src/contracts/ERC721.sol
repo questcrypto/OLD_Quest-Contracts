@@ -86,7 +86,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         uint256 next_reevaluation_date;
         Property_coins_generated_till_now[] coins_issue;
         Property_coins_generated_till_now total_coins_issue;
-        string[] Property_images;
+        string Property_images_hash;
         string[] Property_location;
         uint256 taxes;
         uint256 insurance;
@@ -396,7 +396,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function _mint(uint256 origVal,
                                      uint256 coins,
-                                     string[] memory property_images,
+                                     string memory property_images_hash,
                                      string[] memory pro_add_details,
                                      uint prop_tax,
                                      uint prop_insurance,
@@ -433,7 +433,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         prop[tokenId].Orig_Value = origVal;
         prop[tokenId].Curr_Value = origVal;
         prop[tokenId].next_reevaluation_date = now;
-        prop[tokenId].Property_images = property_images;    
+        prop[tokenId].Property_images_hash = property_images_hash;    
         prop[tokenId].Property_location = pro_add_details;
         prop[tokenId].coins_issue.push(coinsdetails);
         prop[tokenId].total_coins_issue = coinsdetails;  
@@ -443,9 +443,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         prop[tokenId].total = (prop_tax.add(prop_insurance)).add(prop_maintainence);
        // prop[tokenId] .monthly_hoa_payment = (prop[tokenId].total).div(12);
         prop[tokenId].property_features = features_prop;
-        address to = msg.sender;
-       // emit Transfer(address(0), msg.sender, tokenId);
-        emit Transfer(address(0), to , tokenId);
+        emit Transfer(address(0), msg.sender , tokenId);
         
         
     }
