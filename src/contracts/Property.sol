@@ -4,10 +4,11 @@ pragma experimental ABIEncoderV2;
 
 import "./ERC721.sol";
 import "./ERC20.sol";
-
-
+import "./Strings.sol";
 
 contract Property is ERC721 {
+
+  using Strings for string; 
   string[] public properties;
   address public proptest;
   mapping(string => bool) _propertyExists;
@@ -31,6 +32,7 @@ contract Property is ERC721 {
                                      uint256 prop_insurance,
                                      uint256 prop_maintainence,
                                      string memory features_prop) public {
+   _property = _property._toLower();                                         
    require(!_propertyExists[_property]);
    property_Details memory temp;
    properties.push(_property);
@@ -56,6 +58,8 @@ contract Property is ERC721 {
        return proptest;
        
    }
+   
+   
    
    
   
