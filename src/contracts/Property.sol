@@ -43,6 +43,7 @@ contract Property is ERC721 {
 
    temp.name = _property;
    temp.deployed_Token = deployNewToken("prop1", "QST",origVal);
+   origVal = (85*origVal)/100;
 
     deployNewToken("VOUCHER","*V*",origVal);
     
