@@ -51,13 +51,10 @@ contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name, string memory symbol, address issuer,uint256 no_of_tokens) public {
+    constructor (string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
         _decimals = 18;
-        _issuer = issuer;
-        issuetoken(_issuer,no_of_tokens);
-       
     }
 
     /* @dev Returns the name of the token.
@@ -217,7 +214,7 @@ contract ERC20 is Context, IERC20 {
      *
      * - to cannot be the zero address.
      */
-    function issuetoken(address account, uint256 amount) internal virtual {
+    function issuetoken(address account, uint256 amount) public override {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.6.2;
+pragma experimental ABIEncoderV2;
 
 import "./IERC165.sol";
 
@@ -111,6 +112,16 @@ interface IERC721 is IERC165 {
      * See {setApprovalForAll}
      */
     function isApprovedForAll(address owner, address operator) external view returns (bool);
+    
+    function _mint(uint256 origVal,
+                                     address ownerAddress,
+                                     uint256 coins,
+                                     string memory property_images_hash,
+                                     string[] memory pro_add_details,
+                                     uint prop_tax,
+                                     uint prop_insurance,
+                                     uint prop_maintainence,
+                                     string memory features_prop) external;
 
     /**
       * @dev Safely transfers `tokenId` token from `from` to `to`.

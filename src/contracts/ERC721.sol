@@ -27,6 +27,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     
     uint256 _id = 1;
 
+   
     // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
     // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
     bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
@@ -149,9 +150,9 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor (string memory name, string memory symbol ) public {
-        _name = name;
-        _symbol = symbol;
+    constructor () public {
+        _name = "Property";
+        _symbol = "QST_TKN";
         
         
 
@@ -395,23 +396,24 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      * Emits a {Transfer} event.
      */
     function _mint(uint256 origVal,
+                                     address ownerAddress,
                                      uint256 coins,
                                      string memory property_images_hash,
                                      string[] memory pro_add_details,
                                      uint prop_tax,
                                      uint prop_insurance,
                                      uint prop_maintainence,
-                                     string memory features_prop) internal virtual {
+                                     string memory features_prop) public override {
                                         uint256 tokenId = _id;
                                         _id++;
-        require(msg.sender != address(0), "ERC721: mint to the zero address");
+        require(ownerAddress != address(0), "ERC721: mint to the zero address");
         require(!_exists(tokenId), "ERC721: token already minted");
 
-        _beforeTokenTransfer(address(0), msg.sender, tokenId);
+        _beforeTokenTransfer(address(0),ownerAddress, tokenId);
 
-        _holderTokens[msg.sender].add(tokenId);
+        _holderTokens[ownerAddress].add(tokenId);
 
-        _tokenOwners.set(tokenId, msg.sender);
+        _tokenOwners.set(tokenId, ownerAddress);
         
         Property_coins_generated_till_now memory coinsdetails;
     
@@ -443,7 +445,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         prop[tokenId].total = (prop_tax.add(prop_insurance)).add(prop_maintainence);
        // prop[tokenId] .monthly_hoa_payment = (prop[tokenId].total).div(12);
         prop[tokenId].property_features = features_prop;
-        emit Transfer(address(0), msg.sender , tokenId);
+        emit Transfer(address(0),ownerAddress , tokenId);
         
         
     }
