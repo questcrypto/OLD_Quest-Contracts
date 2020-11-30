@@ -106,8 +106,8 @@ contract ERC20 is Context, IERC20 {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
-        _transfer(_msgSender(), recipient, amount);
+    function transfer(address sender,address recipient, uint256 amount) public virtual override returns (bool) {
+        _transfer(sender, recipient, amount);
         return true;
     }
 

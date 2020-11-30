@@ -16,7 +16,7 @@ contract Property {
   string[] properties;  //store all enlisted properties name
   mapping(string => bool) _propertyExists;
   mapping(address => string[]) OwnedProperties;
-  
+  mapping(address => mapping(uint256 => ERC20)) public token_prop;
   struct property_Details{
       string name;
       address deployed_Token;
@@ -46,7 +46,7 @@ contract Property {
    _propertyExists[_property] = true;
    OwnedProperties[msg.sender].push(_property);
    temp.name = _property;
-   temp.deployed_Token = deployNewToken("prop1", "QST",origVal);
+   temp.deployed_Token = deployNewToken("prop1", "QST",origVal,totalProperties());
    
    origVal = (85*origVal)/100;
    deployNewVoucherToken("VOUCHER","*V*",origVal);
@@ -56,8 +56,9 @@ contract Property {
     
   } 
   
-  function deployNewToken(string memory name, string memory symbol,uint256 no_of_token) internal returns (address) {
+  function deployNewToken(string memory name, string memory symbol,uint256 no_of_token,uint property_id) internal returns (address) {
        erc20property = new ERC20( name, symbol);
+       token_prop[msg.sender][property_id] = erc20property;
        erc20property.issuetoken(msg.sender,no_of_token);
        emit TokenCreated(address(erc20property));
        return address(erc20property);
@@ -75,6 +76,26 @@ contract Property {
       require(msg.value>=amount_of_token*10);
       erc.issuetoken(msg.sender,amount_of_token);
   }
+  
+  
+  function purchasePropertyTokens(uint voucher_token_offered,address property_token_owner,uint property_id) public {
+      require(getVoucherBalance(msg.sender)>=voucher_token_offered);
+      ERC20 _erc20_property_token_instance = token_prop[property_token_owner][property_id];
+      require(voucher_token_offered <= _erc20_property_token_instance._balances(property_token_owner));
+      erc.transfer(msg.sender,property_token_owner,voucher_token_offered);
+      _erc20_property_token_instance.transfer(property_token_owner,msg.sender,voucher_token_offered);
+      OwnedProperties[msg.sender].push(properties[property_id-1]);
+       token_prop[msg.sender][property_id] = _erc20_property_token_instance;
+      
+  }
+  
+  function getVoucherBalance(address user) public view returns(uint256){
+      return erc.balanceOf(user);
+  }
+  
+  function getPropertyTokenBalance(address user) public view returns(uint256){
+      return erc20property._balances(user);
+  }
    
    
   function getOwnerProperties(address owner) public view returns(string[] memory){
@@ -89,8 +110,8 @@ contract Property {
   } 
 
   function totalProperties()public view returns(uint256){
-    uint256 len = properties.length;
-    return len;
+    
+    return properties.length;
   }
     
 
