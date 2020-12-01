@@ -49,7 +49,7 @@ contract Property {
    temp.deployed_Token = deployNewToken("prop1", "QST",origVal,totalProperties());
    
    origVal = (85*origVal)/100;
-   deployNewVoucherToken("VOUCHER","*V*",origVal);
+   deployNewVoucherToken(origVal);
     
    property_Array.push(temp);
    delete temp;
@@ -64,12 +64,8 @@ contract Property {
        return address(erc20property);
        
   }
-  function deployNewVoucherToken(string memory name, string memory symbol,uint256 no_of_token) internal returns (address) {
-       erc20voucher = new ERC20( name, symbol);
-       erc20voucher.issuetoken(msg.sender,no_of_token);
-       emit TokenCreated(address(erc20voucher));
-       return address(erc20voucher);
-       
+  function deployNewVoucherToken(uint256 no_of_token) internal {
+       erc.issuetoken(msg.sender,no_of_token);   
   }
   
   function purchaseVocherTokens(uint256 amount_of_token) public payable{

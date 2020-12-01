@@ -30331,12 +30331,12 @@
         }
       },
       "links": {},
-      "address": "0x89c461e68929Fb12d8fbD05251e38B5c6b8c0380",
-      "transactionHash": "0xe699a1e9367499563943fd14850867741cbfd485aebc7c903cede3107dce0692"
+      "address": "0x81317DA95fd51a7292b0d27Dbdf61Ac41e1D9BB9",
+      "transactionHash": "0xce14a1452a5819bee9423d73555338bb560338ebc5daf99e03aff2443b77ea4f"
     }
   },
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-30T05:53:07.150Z",
+  "schemaVersion": "3.3.2",
+  "updatedAt": "2020-12-01T08:59:11.922Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "see https://eips.ethereum.org/EIPS/eip-721",

@@ -15,9 +15,9 @@
       "type": "event"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"TokenCreated\",\"type\":\"event\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Factory.sol\":\"Factory\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Context.sol\":{\"keccak256\":\"0xac3640fab06aaa5fc0af5b6548a8636bc14b78229779b692bae195c699221797\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://48fcd027633a742c81fcfa81dfa2a0a22cee177971fb32e6f8cb5197fdf951d1\",\"dweb:/ipfs/QmeGieEzcGUKHppbDZ3PySE4yi8gTzcRQ7ayobMobbmwJ3\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/ERC20.sol\":{\"keccak256\":\"0x22fed3a39eaeeb28ee6b6867bba50daf1ac6555c07bc3c8293ca5ad53fcb023c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1a4a4e53e2541b36194ccb9df62cdf2e32652f52c4bdcbc9c70145645e0fac64\",\"dweb:/ipfs/QmUmoYSdbFNV3aaiC8UnsfhzrjBDkgyTxJC7QejQWaKLeH\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Factory.sol\":{\"keccak256\":\"0x89a82294c1567f15ac23a7f26e982aa67c249508e781972e4da53d19048a9793\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://167712675a9d15c55fa6d1e82f8411d5c8739264f19487fe9db7e4d707069ca7\",\"dweb:/ipfs/Qmd4axmTAp8nEWFDeXu272TiPS3ndRne7Ewj8EgotFsAh3\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/IERC20.sol\":{\"keccak256\":\"0x726e494fe4138b69893c576d4744644ca25bc3206eefe74875e0bc3bacea2b7d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bada9fd6d94c87a6dfdce10182563e74ecdbdbf24700e8ceb94974da6dc1dfce\",\"dweb:/ipfs/QmaaBqkJ6KEFqfy3NkpMMmfwsEgJwGtGBHHuNzHmdUJX3e\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/SafeMath.sol\":{\"keccak256\":\"0xaa5974a17de3ff0a3b5132f2d65f957c60450c398b0e6bf252cd8c80c43a4724\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6f8f9836ee7504a2010136587fdfb373937cb5ae822f44f7c5110be984c552c8\",\"dweb:/ipfs/QmPsVWWUEiPZ9gmFRaR491L1pYWuGrGKRaBt86j8YcDdgQ\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212207e6c04522ae54bdd55ce6f2fce4141dd5ea4205bf65a75607330d7ad1e2e0a2164736f6c634300060c0033",
-  "deployedBytecode": "0x6080604052600080fdfea26469706673582212207e6c04522ae54bdd55ce6f2fce4141dd5ea4205bf65a75607330d7ad1e2e0a2164736f6c634300060c0033",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"TokenCreated\",\"type\":\"event\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Factory.sol\":\"Factory\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Context.sol\":{\"keccak256\":\"0xac3640fab06aaa5fc0af5b6548a8636bc14b78229779b692bae195c699221797\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://48fcd027633a742c81fcfa81dfa2a0a22cee177971fb32e6f8cb5197fdf951d1\",\"dweb:/ipfs/QmeGieEzcGUKHppbDZ3PySE4yi8gTzcRQ7ayobMobbmwJ3\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/ERC20.sol\":{\"keccak256\":\"0xf33ac10566d056b6c36db9aab5389362a907b188a3bdb3f1af17aa4888f1b279\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d21ce58538f7958466385778f2bbf9f3daea7ceec534916f31d0d629e013b535\",\"dweb:/ipfs/QmQuWjSDVNAiMRPH6pb34itAsEhmAzbmMZtqRVoT6sVfMF\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Factory.sol\":{\"keccak256\":\"0x89a82294c1567f15ac23a7f26e982aa67c249508e781972e4da53d19048a9793\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://167712675a9d15c55fa6d1e82f8411d5c8739264f19487fe9db7e4d707069ca7\",\"dweb:/ipfs/Qmd4axmTAp8nEWFDeXu272TiPS3ndRne7Ewj8EgotFsAh3\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/IERC20.sol\":{\"keccak256\":\"0xf0d611bd52c6141fc8f6c70d76cab4455760cc7e638873e97b9933460e2e27a2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://37d24ad89b773401100f0aabf3dcd5614971a689e8f1c3db2efbb2449527bf13\",\"dweb:/ipfs/QmNkfbq9iWG8zZN48xobGNmByVoKEZMkyNr6YW8jdXVP78\"]},\"/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/SafeMath.sol\":{\"keccak256\":\"0xaa5974a17de3ff0a3b5132f2d65f957c60450c398b0e6bf252cd8c80c43a4724\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6f8f9836ee7504a2010136587fdfb373937cb5ae822f44f7c5110be984c552c8\",\"dweb:/ipfs/QmPsVWWUEiPZ9gmFRaR491L1pYWuGrGKRaBt86j8YcDdgQ\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212205fc45f6c8cad752f9f2a40dc86bbb42d2cfb4e84f34560ba608d97e70240b96f64736f6c634300060c0033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212205fc45f6c8cad752f9f2a40dc86bbb42d2cfb4e84f34560ba608d97e70240b96f64736f6c634300060c0033",
   "immutableReferences": {},
   "sourceMap": "85:329:7:-:0;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "85:329:7:-:0;;;;;",
@@ -27,15 +27,15 @@
     "absolutePath": "/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Factory.sol",
     "exportedSymbols": {
       "Factory": [
-        2835
+        2836
       ]
     },
-    "id": 2836,
+    "id": 2837,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2829,
+        "id": 2830,
         "literals": [
           "solidity",
           "^",
@@ -48,10 +48,10 @@
       {
         "absolutePath": "/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/ERC20.sol",
         "file": "./ERC20.sol",
-        "id": 2830,
+        "id": 2831,
         "nodeType": "ImportDirective",
-        "scope": 2836,
-        "sourceUnit": 863,
+        "scope": 2837,
+        "sourceUnit": 864,
         "src": "62:21:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -63,9 +63,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2835,
+        "id": 2836,
         "linearizedBaseContracts": [
-          2835
+          2836
         ],
         "name": "Factory",
         "nodeType": "ContractDefinition",
@@ -73,22 +73,22 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 2834,
+            "id": 2835,
             "name": "TokenCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 2833,
+              "id": 2834,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2832,
+                  "id": 2833,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 2834,
+                  "scope": 2835,
                   "src": "128:20:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -97,7 +97,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2831,
+                    "id": 2832,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "128:7:7",
@@ -116,7 +116,7 @@
             "src": "109:41:7"
           }
         ],
-        "scope": 2836,
+        "scope": 2837,
         "src": "85:329:7"
       }
     ],
@@ -126,15 +126,15 @@
     "absolutePath": "/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/Factory.sol",
     "exportedSymbols": {
       "Factory": [
-        2835
+        2836
       ]
     },
-    "id": 2836,
+    "id": 2837,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2829,
+        "id": 2830,
         "literals": [
           "solidity",
           "^",
@@ -147,10 +147,10 @@
       {
         "absolutePath": "/C/Users/Prerna/Desktop/QuestCrypt/Quest-Contracts/src/contracts/ERC20.sol",
         "file": "./ERC20.sol",
-        "id": 2830,
+        "id": 2831,
         "nodeType": "ImportDirective",
-        "scope": 2836,
-        "sourceUnit": 863,
+        "scope": 2837,
+        "sourceUnit": 864,
         "src": "62:21:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -162,9 +162,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2835,
+        "id": 2836,
         "linearizedBaseContracts": [
-          2835
+          2836
         ],
         "name": "Factory",
         "nodeType": "ContractDefinition",
@@ -172,22 +172,22 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 2834,
+            "id": 2835,
             "name": "TokenCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 2833,
+              "id": 2834,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2832,
+                  "id": 2833,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 2834,
+                  "scope": 2835,
                   "src": "128:20:7",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -196,7 +196,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2831,
+                    "id": 2832,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "128:7:7",
@@ -215,7 +215,7 @@
             "src": "109:41:7"
           }
         ],
-        "scope": 2836,
+        "scope": 2837,
         "src": "85:329:7"
       }
     ],
@@ -226,8 +226,8 @@
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-30T05:38:59.131Z",
+  "schemaVersion": "3.3.2",
+  "updatedAt": "2020-12-01T08:58:53.913Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
