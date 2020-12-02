@@ -418,13 +418,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         Property_coins_generated_till_now memory coinsdetails;
     
         coinsdetails.coin_issue = coins;
-        coinsdetails.org_val = origVal;
+        coinsdetails.org_val = 100;
         coinsdetails.equity_at_issuance = 0;
 
         //uint temp = 0;
         //uint temp1=  (temp.mul(origVal)).div(origVal);
     
-        coinsdetails.curr_val = 1;
+        coinsdetails.curr_val = 100;
         coinsdetails.tot_curr_val = origVal;
         
         //uint curr = coinsdetails.tot_curr_val;

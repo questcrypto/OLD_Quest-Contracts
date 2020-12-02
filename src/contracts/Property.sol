@@ -17,6 +17,7 @@ contract Property {
   mapping(string => bool) _propertyExists;
   mapping(address => string[]) OwnedProperties;
   mapping(address => mapping(uint256 => ERC20)) public token_prop;
+  mapping(address => mapping(uint256 => uint256)) property_token_sell;
   struct property_Details{
       string name;
       address deployed_Token;
@@ -28,7 +29,7 @@ contract Property {
       erc = IERC20(deployed_erc20);
   }
   
-      event TokenCreated(address tokenAddress);
+  event TokenCreated(address tokenAddress);
   function mint(string memory _property,
                                      uint256 origVal,
                                      uint256 coins,
@@ -50,8 +51,8 @@ contract Property {
    
    origVal = (85*origVal)/100;
    deployNewVoucherToken(origVal);
-    
    property_Array.push(temp);
+    
    delete temp;
     
   } 
@@ -64,8 +65,9 @@ contract Property {
        return address(erc20property);
        
   }
-  function deployNewVoucherToken(uint256 no_of_token) internal {
-       erc.issuetoken(msg.sender,no_of_token);   
+  function deployNewVoucherToken(uint256 no_of_token) internal  {
+         erc.issuetoken(msg.sender,no_of_token);
+       
   }
   
   function purchaseVocherTokens(uint256 amount_of_token) public payable{
@@ -73,8 +75,31 @@ contract Property {
       erc.issuetoken(msg.sender,amount_of_token);
   }
   
+  /*-------------------------Search Property belongs to caller or not---------------------------*/
+function searchPropertyOwner(string memory property_name) view internal returns(bool){
+   
+   for(uint256 i=0;i<OwnedProperties[msg.sender].length;i++){
+   
+    if(OwnedProperties[msg.sender][i].equal(property_name))
+    return true;
+   
+   }
+   return false;
+   
+}
+  
+  function sellPropertyToken(uint256 property_id,uint256 quantity) public {
+      require(property_id>0 && quantity>0);
+      string memory property_name = properties[property_id-1];
+      require(searchPropertyOwner(property_name));
+      ERC20 _erc20_property_token_instance = token_prop[msg.sender][property_id];
+      require(quantity<=_erc20_property_token_instance._balances(msg.sender));
+      property_token_sell[msg.sender][property_id] = quantity;
+  }
+  
   
   function purchasePropertyTokens(uint voucher_token_offered,address property_token_owner,uint property_id) public {
+      require(property_token_sell[property_token_owner][property_id] >= voucher_token_offered);
       require(getVoucherBalance(msg.sender)>=voucher_token_offered);
       ERC20 _erc20_property_token_instance = token_prop[property_token_owner][property_id];
       require(voucher_token_offered <= _erc20_property_token_instance._balances(property_token_owner));
@@ -82,6 +107,7 @@ contract Property {
       _erc20_property_token_instance.transfer(property_token_owner,msg.sender,voucher_token_offered);
       OwnedProperties[msg.sender].push(properties[property_id-1]);
        token_prop[msg.sender][property_id] = _erc20_property_token_instance;
+       property_token_sell[property_token_owner][property_id] -= voucher_token_offered;
       
   }
   
@@ -89,8 +115,9 @@ contract Property {
       return erc.balanceOf(user);
   }
   
-  function getPropertyTokenBalance(address user) public view returns(uint256){
-      return erc20property._balances(user);
+  function getPropertyTokenBalance(address user,uint256 property_id) public view returns(uint256){
+       ERC20 _erc20_property_token_instance = token_prop[user][property_id];
+       return _erc20_property_token_instance._balances(user);
   }
    
    
