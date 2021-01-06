@@ -5,6 +5,7 @@ pragma experimental ABIEncoderV2;
 
 import "./IERC165.sol";
 
+
 /**
  * @dev Required interface of an ERC721 compliant contract.
  */
@@ -13,6 +14,7 @@ interface IERC721 is IERC165 {
      * @dev Emitted when `tokenId` token is transferred from `from` to `to`.
      */
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    
 
     /**
      * @dev Emitted when `owner` enables `approved` to manage the `tokenId` token.
@@ -112,16 +114,6 @@ interface IERC721 is IERC165 {
      * See {setApprovalForAll}
      */
     function isApprovedForAll(address owner, address operator) external view returns (bool);
-    
-    function _mint(uint256 origVal,
-                                     address ownerAddress,
-                                     uint256 coins,
-                                     string memory property_images_hash,
-                                     string[] memory pro_add_details,
-                                     uint prop_tax,
-                                     uint prop_insurance,
-                                     uint prop_maintainence,
-                                     string memory features_prop) external;
 
     /**
       * @dev Safely transfers `tokenId` token from `from` to `to`.
@@ -137,4 +129,10 @@ interface IERC721 is IERC165 {
       * Emits a {Transfer} event.
       */
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) external;
+    
+    /** Mint ERC721 tokens
+     * 
+     */
+     
+     function _mint(address owner,uint256 origVal,uint256 coins,string[] memory property_images,string[] memory pro_add_details,uint prop_tax,uint prop_insurance,uint prop_maintainence,string memory features_prop) external;
 }

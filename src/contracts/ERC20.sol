@@ -2,34 +2,7 @@
 
 pragma solidity ^0.6.2;
 
-import "./Context.sol";
-import "./IERC20.sol";
-import "./SafeMath.sol";
-
-/* @dev Implementation of the {IERC20} interface.
- *
- * This implementation is agnostic to the way tokens are created. This means
- * that a supply mechanism has to be added in a derived contract using {_mints}.
- * For a generic mechanism see {ERC20PresetMinterPauser}.
- *
- * TIP: For a detailed writeup see our guide
- * https://forum.zeppelin.solutions/t/how-to-implement-erc20-supply-mechanisms/226[How
- * to implement supply mechanisms].
- *
- * We have followed general OpenZeppelin guidelines: functions revert instead
- * of returning `false` on failure. This behavior is nonetheless conventional
- * and does not conflict with the expectations of ERC20 applications.
- *
- * Additionally, an {Approval} event is emitted on calls to {transferFrom}.
- * This allows applications to reconstruct the allowance for all accounts just
- * by listening to said events. Other implementations of the EIP may not emit
- * these events, as it isn't required by the specification.
- *
- * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}
- * functions have been added to mitigate the well-known issues around setting
- * allowances. See {IERC20-approve}.
- */
-contract ERC20 is Context, IERC20 {
+contract ERC20 {
     using SafeMath for uint256;
 
     mapping (address => uint256) public _balances;
@@ -40,25 +13,33 @@ contract ERC20 is Context, IERC20 {
 
     string private _name;
     string private _symbol;
-    uint8 private _decimals;
-    address private _issuer;
+    uint8  private _decimals;
+    address public contractowner;
+    address public marketAddress;
+    address public PropertyContractAddress;
+  
+    event Transfer(address indexed from, address indexed to, uint256 value);
 
-    /* @dev Sets the values for {name} and {symbol}, initializes {decimals} with
-     * a default value of 18.
-     *
-     * To select a different value for {decimals}, use {_setupDecimals}.
-     *
-     * All three of these values are immutable: they can only be set once during
-     * construction.
-     */
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+    
     constructor (string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
-        _decimals = 18;
+        _decimals = 0;
+        contractowner = msg.sender;
+        
+        //when new instance of erc20 is deployed by property contract
+        PropertyContractAddress = msg.sender;
     }
 
     /* @dev Returns the name of the token.
      */
+      
+    modifier onlyOwner() {
+        require(msg.sender == contractowner);
+        _;
+    }
+    
     function name() public view returns (string memory) {
         return _name;
     }
@@ -71,8 +52,8 @@ contract ERC20 is Context, IERC20 {
     }
 
     /* @dev Returns the number of decimals used to get its user representation.
-     * For example, if `decimals` equals `2`, a balance of `505` tokens should
-     * be displayed to a user as `5,05` (`505 / 10  2`).
+     * For example, if decimals equals 2, a balance of 505 tokens should
+     * be displayed to a user as 5,05 (505 / 10  2).
      *
      * Tokens usually opt for a value of 18, imitating the relationship between
      * Ether and Wei. This is the value {ERC20} uses, unless {_setupDecimals} is
@@ -86,15 +67,27 @@ contract ERC20 is Context, IERC20 {
         return _decimals;
     }
 
+
+    function setMarketAddress(address _address) public {
+        require(msg.sender == contractowner || msg.sender == PropertyContractAddress);
+        marketAddress = _address;
+       
+    }
+    
+    function setPropertyContractAddress(address _address) public onlyOwner {
+        
+        PropertyContractAddress = _address;
+       
+    }
     /* @dev See {IERC20-totalSupply}.
      */
-    function totalSupply() public view override returns (uint256) {
+    function totalSupply() public view  returns (uint256) {
         return _totalSupply;
     }
 
     /* @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public view override returns (uint256) {
+    function balanceOf(address account) public view returns (uint256) {
         return _balances[account];
     }
 
@@ -103,28 +96,27 @@ contract ERC20 is Context, IERC20 {
      *
      * Requirements:
      *
-     * - `recipient` cannot be the zero address.
-     * - the caller must have a balance of at least `amount`.
+     * - recipient cannot be the zero address.
+     * - the caller must have a balance of at least amount.
      */
-    function transfer(address sender,address recipient, uint256 amount) public virtual override returns (bool) {
-        _transfer(sender, recipient, amount);
+    function transfer(address recipient, uint256 amount) public virtual returns (bool) {
+        _transfer(msg.sender, recipient, amount);
         return true;
     }
 
     /* @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view override virtual  returns (uint256) {
+    function allowance(address owner, address spender) public view  virtual  returns (uint256) {
         return _allowances[owner][spender];
     }
-
     /* @dev See {IERC20-approve}.
      *
      * Requirements:
      *
-     * - `spender` cannot be the zero address.
+     * - spender cannot be the zero address.
      */
-    function approve(address spender, uint256 amount) public virtual override returns (bool) {
-        _approve(_msgSender(), spender, amount);
+    function approve(address spender, uint256 amount) public virtual  returns (bool) {
+        _approve(msg.sender, spender, amount);
         return true;
     }
 
@@ -140,13 +132,13 @@ contract ERC20 is Context, IERC20 {
      * - the caller must have allowance for ``sender``'s tokens of at least
      * amount.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
+    function transferFrom(address sender, address recipient, uint256 amount) public virtual returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance"));
+        _approve(sender, msg.sender, _allowances[sender][msg.sender].sub(amount, "ERC20: transfer amount exceeds allowance"));
         return true;
     }
 
-    /* @dev Atomically increases the allowance granted to `spender` by the caller.
+    /* @dev Atomically increases the allowance granted to spender by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
      * problems described in {IERC20-approve}.
@@ -155,10 +147,10 @@ contract ERC20 is Context, IERC20 {
      *
      * Requirements:
      *
-     * - `spender` cannot be the zero address.
+     * - spender cannot be the zero address.
      */
     function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].add(addedValue));
+        _approve(msg.sender, spender, _allowances[msg.sender][spender].add(addedValue));
         return true;
     }
 
@@ -176,12 +168,12 @@ contract ERC20 is Context, IERC20 {
      * subtractedValue.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+        _approve(msg.sender, spender, _allowances[msg.sender][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
         return true;
     }
 
 
-    /* @dev Moves tokens `amount` from `sender` to `recipient`.
+    /* @dev Moves tokens amount from sender to recipient.
      *
      * This is internal function is equivalent to {transfer}, and can be used to
      * e.g. implement automatic token fees, slashing mechanisms, etc.
@@ -190,9 +182,9 @@ contract ERC20 is Context, IERC20 {
      *
      * Requirements:
      *
-     * - `sender` cannot be the zero address.
-     * - `recipient` cannot be the zero address.
-     * - `sender` must have a balance of at least `amount`.
+     * - sender cannot be the zero address.
+     * - recipient cannot be the zero address.
+     * - sender must have a balance of at least amount.
      */
     function _transfer(address sender, address recipient, uint256 amount) internal virtual {
         require(sender != address(0), "ERC20: transfer from the zero address");
@@ -214,7 +206,10 @@ contract ERC20 is Context, IERC20 {
      *
      * - to cannot be the zero address.
      */
-    function issuetoken(address account, uint256 amount) public override {
+    function issuetoken(address account, uint256 amount) public  {
+        require(msg.sender == marketAddress ||
+                msg.sender == PropertyContractAddress||
+                msg.sender == contractowner);
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
@@ -223,16 +218,15 @@ contract ERC20 is Context, IERC20 {
         emit Transfer(address(0), account, amount);
         
     }
-
-    /* @dev Destroys `amount` tokens from `account`, reducing the
+    /* @dev Destroys amount tokens from account, reducing the
      * total supply.
      *
-     * Emits a {Transfer} event with `to` set to the zero address.
+     * Emits a {Transfer} event with to set to the zero address.
      *
      * Requirements:
      *
-     * - `account` cannot be the zero address.
-     * - `account` must have at least `amount` tokens.
+     * - account cannot be the zero address.
+     * - account must have at least amount tokens.
      */
     function _burn(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: burn from the zero address");
@@ -256,6 +250,13 @@ contract ERC20 is Context, IERC20 {
      * - owner cannot be the zero address.
      * - spender cannot be the zero address.
      */
+     
+      function SellerOrBuyerApproveMarket(address owner , address spender , uint256 amount) public virtual{
+        
+        require(msg.sender == marketAddress,"caller is not market");
+        _approve(owner,spender,amount);
+    }
+    
     function _approve(address owner, address spender, uint256 amount) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
@@ -288,4 +289,148 @@ contract ERC20 is Context, IERC20 {
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
+}
+
+
+library SafeMath {
+    /**
+     * @dev Returns the addition of two unsigned integers, reverting on
+     * overflow.
+     *
+     * Counterpart to Solidity's `+` operator.
+     *
+     * Requirements:
+     *
+     * - Addition cannot overflow.
+     */
+    function add(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 c = a + b;
+        require(c >= a, "SafeMath: addition overflow");
+
+        return c;
+    }
+
+    /**
+     * @dev Returns the subtraction of two unsigned integers, reverting on
+     * overflow (when the result is negative).
+     *
+     * Counterpart to Solidity's `-` operator.
+     *
+     * Requirements:
+     *
+     * - Subtraction cannot overflow.
+     */
+    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+        return sub(a, b, "SafeMath: subtraction overflow");
+    }
+
+    /**
+     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
+     * overflow (when the result is negative).
+     *
+     * Counterpart to Solidity's `-` operator.
+     *
+     * Requirements:
+     *
+     * - Subtraction cannot overflow.
+     */
+    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+        require(b <= a, errorMessage);
+        uint256 c = a - b;
+
+        return c;
+    }
+
+    /**
+     * @dev Returns the multiplication of two unsigned integers, reverting on
+     * overflow.
+     *
+     * Counterpart to Solidity's `*` operator.
+     *
+     * Requirements:
+     *
+     * - Multiplication cannot overflow.
+     */
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+        if (a == 0) {
+            return 0;
+        }
+
+        uint256 c = a * b;
+        require(c / a == b, "SafeMath: multiplication overflow");
+
+        return c;
+    }
+
+    /**
+     * @dev Returns the integer division of two unsigned integers. Reverts on
+     * division by zero. The result is rounded towards zero.
+     *
+     * Counterpart to Solidity's `/` operator. Note: this function uses a
+     * `revert` opcode (which leaves remaining gas untouched) while Solidity
+     * uses an invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     *
+     * - The divisor cannot be zero.
+     */
+    function div(uint256 a, uint256 b) internal pure returns (uint256) {
+        return div(a, b, "SafeMath: division by zero");
+    }
+
+    /**
+     * @dev Returns the integer division of two unsigned integers. Reverts with custom message on
+     * division by zero. The result is rounded towards zero.
+     *
+     * Counterpart to Solidity's `/` operator. Note: this function uses a
+     * `revert` opcode (which leaves remaining gas untouched) while Solidity
+     * uses an invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     *
+     * - The divisor cannot be zero.
+     */
+    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+        require(b > 0, errorMessage);
+        uint256 c = a / b;
+        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+
+        return c;
+    }
+
+    /**
+     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
+     * Reverts when dividing by zero.
+     *
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
+     * opcode (which leaves remaining gas untouched) while Solidity uses an
+     * invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     *
+     * - The divisor cannot be zero.
+     */
+    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
+        return mod(a, b, "SafeMath: modulo by zero");
+    }
+
+    /**
+     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
+     * Reverts with custom message when dividing by zero.
+     *
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
+     * opcode (which leaves remaining gas untouched) while Solidity uses an
+     * invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     *
+     * - The divisor cannot be zero.
+     */
+    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+        require(b != 0, errorMessage);
+        return a % b;
+    }
 }

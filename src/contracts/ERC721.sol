@@ -12,7 +12,6 @@ import "./SafeMath.sol";
 import "./Address.sol";
 import "./EnumerableSet.sol";
 import "./EnumerableMap.sol";
-import "./Strings.sol";
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
@@ -25,9 +24,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     using EnumerableMap for EnumerableMap.UintToAddressMap;
     using Strings for uint256;
     
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    
     uint256 _id = 1;
 
-   
     // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
     // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
     bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
@@ -59,59 +59,49 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         uint256 tokesIssued;
     }
     
-    struct PropertyValue{
-     uint OrginalValue;
-     uint CurrentValue;
-     uint OriginalIssuanceRate;
-     mapping (uint256 => _IssuanceDetail) IssuanceDetails;
-    }
-    
     // Metadata values
     
+    // Struct for Issuance propertyDetails
     
-    struct Property_coins_generated_till_now{
+    struct issuanceDetail {
         
-        uint256 coin_issue;
-        uint256 org_val;
-        uint256 equity_at_issuance;
-        uint256 curr_val;
-        uint256 tot_curr_val; 
-        uint256 increase;
-    
+        uint256 propertyTokensIssued;
+        uint256 valueAtIssuance;
+        uint256  timeStamp;
+        
     }
     
-    struct Prop_Value_Details{
-
-        uint256 Orig_Value;//Original Value of the Property
-        uint256 Curr_Value;//Current value of the Property
-        uint256 next_reevaluation_date;
-        Property_coins_generated_till_now[] coins_issue;
-        Property_coins_generated_till_now total_coins_issue;
-        string Property_images_hash;
-        string[] Property_location;
-        uint256 taxes;
-        uint256 insurance;
-        uint256 maintainence;
-        uint256 total;
-        uint256 monthly_hoa_payment;
-        string property_features;
     
+    struct propertyDetail  {
+        
+        uint256 originalValue;
+        uint256 currentValue;
+        uint256 originalIssuanceRate;
+        uint256 totalCurrentValue;
+        uint256 variation;
+        string[] propertyImageHash;
+        string[] Address;
+        uint256 Tax;
+        uint256 Insurance;
+        uint256 Maintenance;
+        string propertyFeatures;
+        uint NoOfIssuance;
+        mapping(uint256 => issuanceDetail ) issuanceDetails;
+        
     }
+    
+    
+    mapping(uint256 => propertyDetail) public propertyDetails;
+    
     
     
     address[] public EligibleEmp;
     address public contractOwner;
     uint256 nftPrice;
-    uint256 public tot_no_of_prop_onplatform = 0;
-    mapping(uint256 => Prop_Value_Details) public prop;
-    
-    
-    // 
-    
-    mapping (uint256 => PropertyValue) public _propertyValue;
+    // mapping(uint256 => Prop_Value_Details) public prop;
 
     // Base URI
-    string private _baseURI;
+    string private _baseURI = "https://mydomain.com/meta.php?nftid=";
 
     /*
      *     bytes4(keccak256('balanceOf(address)')) == 0x70a08231
@@ -146,13 +136,18 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      *     => 0x18160ddd ^ 0x2f745c59 ^ 0x4f6ccce7 == 0x780e9d63
      */
     bytes4 private constant _INTERFACE_ID_ERC721_ENUMERABLE = 0x780e9d63;
+    
+    // Address of the contract owner
+    
+    address public _contractOwner;
 
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
     constructor () public {
-        _name = "Property";
-        _symbol = "QST_TKN";
+        _name = "StrategicNft";
+        _symbol = "SNFT";
+        _contractOwner = msg.sender;
         
         
 
@@ -395,60 +390,76 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      *
      * Emits a {Transfer} event.
      */
-    function _mint(uint256 origVal,
-                                     address ownerAddress,
-                                     uint256 coins,
-                                     string memory property_images_hash,
+     
+     uint256 public OIR ;
+    function _mint(address owner,uint256 origVal,uint256 coins,
+                                     string[] memory property_images,
                                      string[] memory pro_add_details,
                                      uint prop_tax,
                                      uint prop_insurance,
                                      uint prop_maintainence,
-                                     string memory features_prop) public override {
-                                        uint256 tokenId = _id;
+                                     string memory features_prop) public override{
+                                         
+                                     uint256 tokenId = _id;
                                         _id++;
-        require(ownerAddress != address(0), "ERC721: mint to the zero address");
+        require(owner != address(0), "ERC721: mint to the zero address");
         require(!_exists(tokenId), "ERC721: token already minted");
 
-        _beforeTokenTransfer(address(0),ownerAddress, tokenId);
+        _beforeTokenTransfer(address(0), owner, tokenId);
 
-        _holderTokens[ownerAddress].add(tokenId);
+        _holderTokens[owner].add(tokenId);
 
-        _tokenOwners.set(tokenId, ownerAddress);
+        _tokenOwners.set(tokenId, owner);
         
-        Property_coins_generated_till_now memory coinsdetails;
-    
-        coinsdetails.coin_issue = coins;
-        coinsdetails.org_val = 100;
-        coinsdetails.equity_at_issuance = 0;
-
-        //uint temp = 0;
-        //uint temp1=  (temp.mul(origVal)).div(origVal);
-    
-        coinsdetails.curr_val = 100;
-        coinsdetails.tot_curr_val = origVal;
+        propertyDetails[tokenId].originalValue = origVal;
+        propertyDetails[tokenId].currentValue = origVal;
+        propertyDetails[tokenId].originalIssuanceRate = (coins.mul(100)).div(origVal);
+        propertyDetails[tokenId].propertyImageHash = property_images;
+        propertyDetails[tokenId].Address = pro_add_details;
+        propertyDetails[tokenId].Tax = prop_tax;
+        propertyDetails[tokenId].Insurance = prop_insurance;
+        propertyDetails[tokenId].Maintenance = prop_maintainence;
+        propertyDetails[tokenId].propertyFeatures = features_prop;
+        propertyDetails[tokenId].issuanceDetails[0].propertyTokensIssued = origVal;
+        propertyDetails[tokenId].issuanceDetails[0].valueAtIssuance = origVal;
+        propertyDetails[tokenId].issuanceDetails[0].timeStamp = now;
+        propertyDetails[tokenId].NoOfIssuance= 0;
         
-        //uint curr = coinsdetails.tot_curr_val;
-        //uint orig=  ((coinsdetails.org_val).mul(coins)).div(origVal);
-            
-        coinsdetails.increase = 0;
-           
-        prop[tokenId].Orig_Value = origVal;
-        prop[tokenId].Curr_Value = origVal;
-        prop[tokenId].next_reevaluation_date = now;
-        prop[tokenId].Property_images_hash = property_images_hash;    
-        prop[tokenId].Property_location = pro_add_details;
-        prop[tokenId].coins_issue.push(coinsdetails);
-        prop[tokenId].total_coins_issue = coinsdetails;  
-        prop[tokenId].taxes = prop_tax;
-        prop[tokenId].insurance = prop_insurance;
-        prop[tokenId].maintainence = prop_maintainence;
-        prop[tokenId].total = (prop_tax.add(prop_insurance)).add(prop_maintainence);
-       // prop[tokenId] .monthly_hoa_payment = (prop[tokenId].total).div(12);
-        prop[tokenId].property_features = features_prop;
-        emit Transfer(address(0),ownerAddress , tokenId);
         
+        emit Transfer(address(0), owner , tokenId);
         
     }
+    
+  function _getValues(uint256 id, uint256 TokenId) public view returns( issuanceDetail memory){
+      
+      return propertyDetails[TokenId].issuanceDetails[id];
+      
+  }
+  
+  
+  // This fucntions enables isssunace of second set of token;
+  
+  function _isssueToken(uint256 Tokenvalue, uint256 TokenId) public{
+      
+      require(_contractOwner == msg.sender, "Unauthorized User");
+       uint256 index = SafeMath.add(propertyDetails[TokenId].NoOfIssuance, 1);
+      propertyDetails[TokenId].issuanceDetails[index].propertyTokensIssued = Tokenvalue;
+      propertyDetails[TokenId].issuanceDetails[index].timeStamp = now;
+      propertyDetails[TokenId].issuanceDetails[index].valueAtIssuance = propertyDetails[TokenId].currentValue;
+      
+  }
+  
+    
+    // function checkmath() public returns (uint256) {
+        
+    //     uint256 Value1 = 10000;
+    //     uint256 Value2 = 256;
+        
+    //     uint256 Value3 = SafeMath.div(Value1, Value2);
+        
+    //     return Value3;
+        
+    // }
 
     /**
      * @dev Destroys `tokenId`.
@@ -467,6 +478,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
 
         // Clear approvals
         _approve(address(0), tokenId);
+
+
 
         // Clear metadata (if any)
         if (bytes(_tokenURIs[tokenId]).length != 0) {
@@ -578,4 +591,96 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual { }
     
+}
+
+
+library Strings {
+    /* @dev Converts a uint256 to its ASCII string representation.
+     */
+     
+     
+
+     
+function _toLower(string memory str) public pure returns (string memory) {
+        bytes memory bStr = bytes(str);
+        bytes memory bLower = new bytes(bStr.length);
+        for (uint i = 0; i < bStr.length; i++) {
+            // Uppercase character...
+            if ((uint8(bStr[i]) >= 65) && (uint8(bStr[i]) <= 90)) {
+                // So we add 32 to make it lowercase
+                bLower[i] = bytes1(uint8(bStr[i]) + 32);
+            } else {
+                bLower[i] = bStr[i];
+            }
+        }
+        return string(bLower);
+    }
+    function uinttoString(uint256 value) internal pure returns (string memory) {
+        // Inspired by OraclizeAPI's implementation - MIT licence
+        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+
+        if (value == 0) {
+            return "0";
+        }
+        uint256 temp = value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        uint256 index = digits - 1;
+        temp = value;
+        while (temp != 0) {
+            buffer[index--] = byte(uint8(48 + temp % 10));
+            temp /= 10;
+        }
+        return string(buffer);
+    }
+     /*-------------------------To Compare two strings---------------------------*/
+    function compare(string memory  _a, string memory _b) internal pure returns (int) {
+        bytes memory a = bytes(_a);
+        bytes memory b = bytes(_b);
+        uint minLength = a.length;
+        if (b.length < minLength) minLength = b.length;
+        for (uint i = 0; i < minLength; i ++)
+            if (a[i] < b[i])
+                return -1;
+            else if (a[i] > b[i])
+                return 1;
+        if (a.length < b.length)
+            return -1;
+        else if (a.length > b.length)
+            return 1;
+        else
+            return 0;
+    }
+
+    function equal(string memory _a, string memory _b) internal pure returns (bool) {
+        return compare(_a, _b) == 0;
+    }
+   function toString(address account) public pure returns(string memory) {
+    return toString(abi.encodePacked(account));
+}
+
+function toString(uint256 value) public pure returns(string memory) {
+    return toString(abi.encodePacked(value));
+}
+
+function toString(bytes32 value) public pure returns(string memory) {
+    return toString(abi.encodePacked(value));
+}
+
+function toString(bytes memory data) public pure returns(string memory) {
+    bytes memory alphabet = "0123456789abcdef";
+
+    bytes memory str = new bytes(2 + data.length * 2);
+    str[0] = "0";
+    str[1] = "x";
+    for (uint i = 0; i < data.length; i++) {
+        str[2+i*2] = alphabet[uint(uint8(data[i] >> 4))];
+        str[3+i*2] = alphabet[uint(uint8(data[i] & 0x0f))];
+    }
+    return string(str);
+}
 }

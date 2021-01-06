@@ -2,22 +2,18 @@
 
 pragma solidity ^0.6.0;
 
-/**
- * @dev Interface of the ERC20 standard as defined in the EIP.
+/* @dev Interface of the ERC20 standard as defined in the EIP.
  */
 interface IERC20 {
-    /**
-     * @dev Returns the amount of tokens in existence.
+    /* @dev Returns the amount of tokens in existence.
      */
     function totalSupply() external view returns (uint256);
 
-    /**
-     * @dev Returns the amount of tokens owned by `account`.
+    /* @dev Returns the amount of tokens owned by `account`.
      */
     function balanceOf(address account) external view returns (uint256);
 
-    /**
-     * @dev Moves `amount` tokens from the caller's account to `recipient`.
+    /* @dev Moves amount tokens from the caller's account to recipient.
      *
      * Returns a boolean value indicating whether the operation succeeded.
      *
@@ -25,8 +21,7 @@ interface IERC20 {
      */
     function transfer(address sender,address recipient, uint256 amount) external returns (bool);
 
-    /**
-     * @dev Returns the remaining number of tokens that `spender` will be
+    /* @dev Returns the remaining number of tokens that `spender` will be
      * allowed to spend on behalf of `owner` through {transferFrom}. This is
      * zero by default.
      *
@@ -34,8 +29,7 @@ interface IERC20 {
      */
     function allowance(address owner, address spender) external view returns (uint256);
 
-    /**
-     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
+    /* @dev Sets amount as the allowance of spender over the caller's tokens.
      *
      * Returns a boolean value indicating whether the operation succeeded.
      *
@@ -50,8 +44,7 @@ interface IERC20 {
      */
     function approve(address spender, uint256 amount) external returns (bool);
 
-    /**
-     * @dev Moves `amount` tokens from `sender` to `recipient` using the
+    /* @dev Moves `amount` tokens from `sender` to `recipient` using the
      * allowance mechanism. `amount` is then deducted from the caller's
      * allowance.
      *
@@ -64,17 +57,16 @@ interface IERC20 {
     
     function issuetoken(address account, uint256 amount) external;
 
-    /**
-     * @dev Emitted when `value` tokens are moved from one account (`from`) to
-     * another (`to`).
+    /* @dev Emitted when value tokens are moved from one account (from) to
+     * another (to).
      *
-     * Note that `value` may be zero.
+     * Note that value may be zero.
      */
     event Transfer(address indexed from, address indexed to, uint256 value);
 
     /**
-     * @dev Emitted when the allowance of a `spender` for an `owner` is set by
-     * a call to {approve}. `value` is the new allowance.
+     * @dev Emitted when the allowance of a spender for an owner is set by
+     * a call to {approve}. value is the new allowance.
      */
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }

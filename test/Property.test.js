@@ -5,6 +5,7 @@ const { assert } = require('chai')
 const Property = artifacts.require('./Property.sol');
 const ERC20 = artifacts.require('./ERC20.sol');
 const ERC721 = artifacts.require('./ERC721.sol');
+const MarketPlace = artifacts.require('MarketPlace');
 
 require('chai')
 .use(require('chai-as-promised'))
@@ -13,39 +14,49 @@ require('chai')
 let comp;
 let erc20;
 let erc721;
+let market;
 let prop_address;
 let erc20address;
 let erc721address;
+let market_address;
 
 contract('Property', (accounts)=>{
 
   let property
   describe('deployment', async() => {
     before(async () =>{
-      comp = await Property.deployed()
-      erc20 = await ERC20.deployed()
-      erc721 = await ERC721.deployed()
+      erc721 = await ERC721.new("QuestNonFungible","QNF");
+      erc20 = await ERC20.new("QuestVOUCHER","QV");
+      comp = await Property.new(erc20.address,erc721.address);
+      market = await MarketPlace.new(erc20.address,comp.address);
     })
    
+
     it('deployed Successfully', async() => {
-   prop_address = comp.address
-   erc20address = erc20.address
-   erc721address = erc721.address
-   console.log(prop_address)
-   console.log(erc20address);
-   console.log(erc721address);
-   assert.notEqual(prop_address,0*0);
-   assert.notEqual(prop_address,'');
-   assert.notEqual(prop_address, undefined);
-   assert.notEqual(prop_address,null)
-   assert.notEqual(erc20address,0*0);
-   assert.notEqual(erc20address,'');
-   assert.notEqual(erc20address, undefined);
-   assert.notEqual(erc20address,null)
-   assert.notEqual(erc721address,0*0);
-   assert.notEqual(erc721address,'');
-   assert.notEqual(erc721address, undefined);
-   assert.notEqual(erc721address,null)
+      prop_address = comp.address;
+      erc20address = erc20.address;
+      erc721address = erc721.address;
+      market_address = market.address;
+      console.log(prop_address);
+      console.log(erc20address);
+      console.log(erc721address);
+      console.log(market_address);
+      assert.notEqual(prop_address,0*0);
+      assert.notEqual(prop_address,'');
+      assert.notEqual(prop_address, undefined);
+      assert.notEqual(prop_address,null);
+      assert.notEqual(erc20address,0*0);
+      assert.notEqual(erc20address,'');
+      assert.notEqual(erc20address, undefined);
+      assert.notEqual(erc20address,null);
+      assert.notEqual(erc721address,0*0);
+      assert.notEqual(erc721address,'');
+      assert.notEqual(erc721address, undefined);
+      assert.notEqual(erc721address,null);
+      assert.notEqual(market_address,0*0);
+      assert.notEqual(market_address,'');
+      assert.notEqual(market_address, undefined);
+      assert.notEqual(market_address,null);
     })
 
 
@@ -57,38 +68,12 @@ contract('Property', (accounts)=>{
 
     it('creates a new token', async() =>{
       
-      let result = await comp.mint("prop1","50000","2500","jhdjcjdbjcbjkbbbx",["{'Address1':'5284 S Ridgecrest','Address2':'','City':'Taylorsville','State':'UT','PostalCode':'84129','County/region':'Salt Lake County','Subdivision':'Heinz 57','TaxID': '01-2222-548','Zoning':'R-1','SchoolDistrict':'Granite','Elementary':'Eccles', 'JrHigh':'Johnson','HighSchool':'Bennion'}"],"550","3800","555","{'Roof':'Asphault Shingle','Heating':'Forced Air','AirConditioning':'Central','FloorHardwood':'Carpet','WindowCovering':'None','Pool':'Yes','PoolFeatures':'Heated, filtered','Exterior':'Brick 70%','Landscaping':'Yes','LotFacts':'.25 Acre','ExteriorFeatures':'Brick','InteriorFeatures':'','Amenities':'','Zoning':'Residential','Type':'SFR','Style':'Rambler','YearBuilt':'1977','Acres':'0.25', 'Deck':'Yes','Patio':'Yes','Garage':'2 Car','Carport':'No','ParkingSpaces':'3','FinBsmt':'95%','Basement':'Yes','Driveway':'Yes','Water':'City','WaterShares':'None','Spa':'None','Comments':'Central Valley Home In Taylorsville with a large backyard pool. Completely remodeled in 2016 everything up to date. 6 Bedrooms and 2 Full bathrooms.Living Room and Downstairs family room laundry room etc… and a true 2 car garage'}");
+      let result = await comp.mint("property1","500000","250000",["abc","def"],["{'Address1':'5284 S Ridgecrest','Address2':'','City':'Taylorsville','State':'UT','PostalCode':'84129','County/region':'Salt Lake County','Subdivision':'Heinz 57','TaxID':'01-2222-548','Zoning':'R-1','SchoolDistrict':'Granite','Elementary':'Eccles','JrHigh':'Johnson','HighSchool':'Bennion'}"],"2550","550","3800", "{'Roof':'Asphault Shingle','Heating':'Forced Air','AirConditioning':'Central','FloorHardwood':'Carpet','WindowCovering':'None','Pool':'Yes','PoolFeatures':'Heated,filtered','Exterior':'Brick 70%','Landscaping':'Yes','LotFacts':'.25 Acre','ExteriorFeatures':'Brick','InteriorFeatures':'','Amenities':'','Zoning':'Residential','Type':'SFR','Style':'Rambler','YearBuilt':'1977','Acres':'0.25','Deck':'Yes','Patio':'Yes','Garage':'2 Car','Carport':'No','ParkingSpaces':'3','FinBsmt':'95%','Basement':'Yes','Driveway':'Yes','Water':'City','WaterShares':'None','Spa':'None','Comments':'Central Valley Home In Taylorsville with a large backyard pool. Completely remodeled in 2016 everything up to date. 6 Bedrooms and 2 Full bathrooms.Living Room and Downstairs family room laundry room etc… and a true 2 car garage'}");
       console.log(result);
-      // const event = result.logs[0].args;
-      // // console.log(comp.proptest);
-      // console.log(event.tokenId.toNumber());
-      // console.log("Above this000");
-      // assert.equal(event.tokenId.toNumber(),1,'id is correct');
-      // assert.equal(event.from,'0x0000000000000000000000000000000000000000', 'from is correct');
-      // assert.equal(event.to,accounts[0], 'to is correct')
-
-      // IF FAILS
-
-      // await comp.mint('prop1').should.be.rejected;
     })
-  })
+  }).timeout(40000)
  
-  describe('minting', async() =>{
-
-    it('creates a new token', async() =>{
-      
-      let result = await comp.mint("prop2","60000","2500","jhdjcjdbjcbjkbbbx",["{'Address1':'5284 S Ridgecrest','Address2':'','City':'Taylorsville','State':'UT','PostalCode':'84129','County/region':'Salt Lake County','Subdivision':'Heinz 57','TaxID': '01-2222-548','Zoning':'R-1','SchoolDistrict':'Granite','Elementary':'Eccles', 'JrHigh':'Johnson','HighSchool':'Bennion'}"],"550","3800","555","{'Roof':'Asphault Shingle','Heating':'Forced Air','AirConditioning':'Central','FloorHardwood':'Carpet','WindowCovering':'None','Pool':'Yes','PoolFeatures':'Heated, filtered','Exterior':'Brick 70%','Landscaping':'Yes','LotFacts':'.25 Acre','ExteriorFeatures':'Brick','InteriorFeatures':'','Amenities':'','Zoning':'Residential','Type':'MFR','Style':'Rambler','YearBuilt':'1977','Acres':'0.25', 'Deck':'Yes','Patio':'Yes','Garage':'2 Car','Carport':'No','ParkingSpaces':'3','FinBsmt':'95%','Basement':'Yes','Driveway':'Yes','Water':'City','WaterShares':'None','Spa':'None','Comments':'Central Valley Home In Taylorsville with a large backyard pool. Completely remodeled in 2016 everything up to date. 6 Bedrooms and 2 Full bathrooms.Living Room and Downstairs family room laundry room etc… and a true 2 car garage'}");
-      console.log(result);
-    })
-  })
-  describe('minting', async() =>{
-
-    it('creates a new token', async() =>{
-      
-      let result = await comp.mint("prop3","70000","2500","jhdjcjdbjcbjkbbbx",["{'Address1':'5284 S Ridgecrest','Address2':'','City':'Taylorsville','State':'UT','PostalCode':'84129','County/region':'Salt Lake County','Subdivision':'Heinz 57','TaxID': '01-2222-548','Zoning':'R-1','SchoolDistrict':'Granite','Elementary':'Eccles', 'JrHigh':'Johnson','HighSchool':'Bennion'}"],"550","3800","555","{'Roof':'Asphault Shingle','Heating':'Forced Air','AirConditioning':'Central','FloorHardwood':'Carpet','WindowCovering':'None','Pool':'Yes','PoolFeatures':'Heated, filtered','Exterior':'Brick 70%','Landscaping':'Yes','LotFacts':'.25 Acre','ExteriorFeatures':'Brick','InteriorFeatures':'','Amenities':'','Zoning':'Residential','Type':'MFR','Style':'Rambler','YearBuilt':'1977','Acres':'0.25', 'Deck':'Yes','Patio':'Yes','Garage':'2 Car','Carport':'No','ParkingSpaces':'3','FinBsmt':'95%','Basement':'Yes','Driveway':'Yes','Water':'City','WaterShares':'None','Spa':'None','Comments':'Central Valley Home In Taylorsville with a large backyard pool. Completely remodeled in 2016 everything up to date. 6 Bedrooms and 2 Full bathrooms.Living Room and Downstairs family room laundry room etc… and a true 2 car garage'}");
-      console.log(result);
-    })
-  })
+ 
 
 
   describe('Display Listed Property according to type MFR', async() =>{
@@ -97,8 +82,8 @@ contract('Property', (accounts)=>{
 
       let no_of_properties = await comp.totalProperties();
       for(let i=1;i<=no_of_properties.words[0];i++){
-        let result = await erc721.prop(i);
-        let obj = result.property_features;
+        let result = await erc721.propertyDetails(i);
+        let obj = result.propertyFeatures;
         let str = obj.replace(/[']/g,'"');
 
         let obj_str = JSON.parse(str);
@@ -108,7 +93,7 @@ contract('Property', (accounts)=>{
      
       
       
-    })
+    }).timeout(40000)
   })
   describe('Display Listed Property according to type SFR', async() =>{
 
@@ -116,8 +101,9 @@ contract('Property', (accounts)=>{
 
       let no_of_properties = await comp.totalProperties();
       for(let i=1;i<=no_of_properties.words[0];i++){
-        let result = await erc721.prop(i);
-        let obj = result.property_features;
+        let result = await erc721.propertyDetails(i);
+        console.log(result);
+        let obj = result.propertyFeatures;
         let str = obj.replace(/[']/g,'"');
 
         let obj_str = JSON.parse(str);
@@ -127,7 +113,7 @@ contract('Property', (accounts)=>{
      
       
       
-    })
+    }).timeout(40000)
   })
   describe('Display Listed Property according to their current value', async() =>{
 
@@ -136,8 +122,8 @@ contract('Property', (accounts)=>{
 
       let no_of_properties = await comp.totalProperties();
       for(let i=1;i<=no_of_properties.words[0];i++){
-        let result = await erc721.prop(i);
-        let value = result.Curr_Value.words[0];
+        let result = await erc721.propertyDetails(i);
+        let value = result.currentValue.words[0];
         if(value >= 50000)
         console.log(await comp.getProperties(i-1));
       
@@ -145,14 +131,14 @@ contract('Property', (accounts)=>{
      
       
       
-    })
+    }).timeout(40000)
     it('Displays properties with given value greater than equal to 60000', async() =>{
       
 
       let no_of_properties = await comp.totalProperties();
       for(let i=1;i<=no_of_properties.words[0];i++){
-        let result = await erc721.prop(i);
-        let value = result.Curr_Value.words[0];
+        let result = await erc721.propertyDetails(i);
+        let value = result.currentValue.words[0];
         if(value >= 60000)
         console.log(await comp.getProperties(i-1));
       
@@ -160,14 +146,14 @@ contract('Property', (accounts)=>{
      
       
       
-    })
+    }).timeout(40000)
     it('Displays properties with given value greater than equal to 70000', async() =>{
       
 
       let no_of_properties = await comp.totalProperties();
       for(let i=1;i<=no_of_properties.words[0];i++){
-        let result = await erc721.prop(i);
-        let value = result.Curr_Value.words[0];
+        let result = await erc721.propertyDetails(i);
+        let value = result.currentValue.words[0];
         if(value >= 70000)
         console.log(await comp.getProperties(i-1));
       
@@ -175,7 +161,7 @@ contract('Property', (accounts)=>{
      
       
       
-    })
+    }).timeout(40000)
   })
   // INDEXING
 
