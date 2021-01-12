@@ -12,25 +12,37 @@ import "./SafeMath.sol";
 import "./Address.sol";
 import "./EnumerableSet.sol";
 import "./EnumerableMap.sol";
-
+import "./Strings.sol";
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
  * @dev see https://eips.ethereum.org/EIPS/eip-721
  */
 contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable {
+    
     using SafeMath for uint256;
     using Address for address;
     using EnumerableSet for EnumerableSet.UintSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
     using Strings for uint256;
     
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
     
     uint256 _id = 1;
+    
+    // Token name
+    string private _name;
 
-    // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
-    // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
-    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
+    // Token symbol
+    string private _symbol;
+    
+    //Deployed Address of Contract Property  
+    address propertyAddress;
+    
+    //Address of this contract Deployer 
+    address public contractOwner;
+    
+    // Base URI
+    string private _baseURI = "https://mydomain.com/meta.php?nftid=";
+    
 
     // Mapping from holder address to their (enumerable) set of owned tokens
     mapping (address => EnumerableSet.UintSet) private _holderTokens;
@@ -44,14 +56,12 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     // Mapping from owner to operator approvals
     mapping (address => mapping (address => bool)) private _operatorApprovals;
 
-    // Token name
-    string private _name;
-
-    // Token symbol
-    string private _symbol;
-
     // Optional mapping for token URIs
     mapping (uint256 => string) private _tokenURIs;
+    
+    mapping(uint256 => propertyDetail) public propertyDetails;
+    
+  
     
     // Adding metaData to the property
     
@@ -59,9 +69,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         uint256 tokesIssued;
     }
     
-    // Metadata values
-    
-    // Struct for Issuance propertyDetails
+    // Struct for Issuance , propertyDetails
     
     struct issuanceDetail {
         
@@ -91,17 +99,11 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     }
     
     
-    mapping(uint256 => propertyDetail) public propertyDetails;
-    
-    
-    
-    address[] public EligibleEmp;
-    address public contractOwner;
-    uint256 nftPrice;
-    // mapping(uint256 => Prop_Value_Details) public prop;
-
-    // Base URI
-    string private _baseURI = "https://mydomain.com/meta.php?nftid=";
+    /*     
+     *     Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
+     *     which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
+     */ 
+    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
     /*
      *     bytes4(keccak256('balanceOf(address)')) == 0x70a08231
@@ -137,22 +139,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     bytes4 private constant _INTERFACE_ID_ERC721_ENUMERABLE = 0x780e9d63;
     
-    // Address of the contract owner
-    
-    address public _contractOwner;
-
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
     constructor () public {
         _name = "StrategicNft";
         _symbol = "SNFT";
-        _contractOwner = msg.sender;
-        
-        
-
-    
-        
+        contractOwner = msg.sender;
 
         // register the supported interfaces to conform to ERC721 via ERC165
         _registerInterface(_INTERFACE_ID_ERC721);
@@ -188,6 +181,11 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function symbol() public view override returns (string memory) {
         return _symbol;
+    }
+    
+    function setPropertyContractAddress(address _address) public  {
+        require(msg.sender == contractOwner);
+        propertyAddress = _address;
     }
 
     /**
@@ -365,18 +363,18 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      *
      * Emits a {Transfer} event.
      */
-    // function _safeMint(address to, uint256 tokenId, uint OrginalValue) internal virtual {
-    //     _safeMint(to, tokenId, OrginalValue);
-    // }
+    function _safeMint(address to, uint256 tokenId) internal virtual {
+        _safeMint(to, tokenId, "");
+    }
 
     /**
      * @dev Same as {xref-ERC721-_safeMint-address-uint256-}[`_safeMint`], with an additional `data` parameter which is
      * forwarded in {IERC721Receiver-onERC721Received} to contract recipients.
      */
-    // function _safeMint(address to, uint256 tokenId, bytes memory _data, uint OrginalValue) internal virtual {
-    //     _mint(to, tokenId,origVal,currVal,date,coins,property_images,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop);
-    //     require(_checkOnERC721Received(address(0), to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
-    // }
+    function _safeMint(address to, uint256 tokenId, bytes memory _data) internal virtual {
+       // _mint(to, tokenId);
+        require(_checkOnERC721Received(address(0), to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
+    }
 
     /**
      * @dev Mints `tokenId` and transfers it to `to`.
@@ -391,7 +389,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      * Emits a {Transfer} event.
      */
      
-     uint256 public OIR ;
+ 
     function _mint(address owner,uint256 origVal,uint256 coins,
                                      string[] memory property_images,
                                      string[] memory pro_add_details,
@@ -400,8 +398,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
                                      uint prop_maintainence,
                                      string memory features_prop) public override{
                                          
-                                     uint256 tokenId = _id;
-                                        _id++;
+                                         
+        uint256 tokenId = _id;
+        _id++;
+        require(msg.sender == contractOwner || msg.sender == propertyAddress);
         require(owner != address(0), "ERC721: mint to the zero address");
         require(!_exists(tokenId), "ERC721: token already minted");
 
@@ -430,36 +430,25 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         
     }
     
-  function _getValues(uint256 id, uint256 TokenId) public view returns( issuanceDetail memory){
+    function _getValues(uint256 id, uint256 TokenId) public view returns( issuanceDetail memory){
       
-      return propertyDetails[TokenId].issuanceDetails[id];
+        return propertyDetails[TokenId].issuanceDetails[id];
       
-  }
+    }
   
   
-  // This fucntions enables isssunace of second set of token;
+    // This fucntions enables isssunace of second set of token;
   
-  function _isssueToken(uint256 Tokenvalue, uint256 TokenId) public{
+    function _isssueToken(uint256 Tokenvalue, uint256 TokenId) public{
       
-      require(_contractOwner == msg.sender, "Unauthorized User");
-       uint256 index = SafeMath.add(propertyDetails[TokenId].NoOfIssuance, 1);
-      propertyDetails[TokenId].issuanceDetails[index].propertyTokensIssued = Tokenvalue;
-      propertyDetails[TokenId].issuanceDetails[index].timeStamp = now;
-      propertyDetails[TokenId].issuanceDetails[index].valueAtIssuance = propertyDetails[TokenId].currentValue;
+        require(contractOwner == msg.sender || msg.sender == propertyAddress, "Unauthorized User");
+        uint256 index = SafeMath.add(propertyDetails[TokenId].NoOfIssuance, 1);
+        propertyDetails[TokenId].issuanceDetails[index].propertyTokensIssued = Tokenvalue;
+        propertyDetails[TokenId].issuanceDetails[index].timeStamp = now;
+        propertyDetails[TokenId].issuanceDetails[index].valueAtIssuance = propertyDetails[TokenId].currentValue;
       
-  }
+    }
   
-    
-    // function checkmath() public returns (uint256) {
-        
-    //     uint256 Value1 = 10000;
-    //     uint256 Value2 = 256;
-        
-    //     uint256 Value3 = SafeMath.div(Value1, Value2);
-        
-    //     return Value3;
-        
-    // }
 
     /**
      * @dev Destroys `tokenId`.
@@ -591,96 +580,4 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual { }
     
-}
-
-
-library Strings {
-    /* @dev Converts a uint256 to its ASCII string representation.
-     */
-     
-     
-
-     
-function _toLower(string memory str) public pure returns (string memory) {
-        bytes memory bStr = bytes(str);
-        bytes memory bLower = new bytes(bStr.length);
-        for (uint i = 0; i < bStr.length; i++) {
-            // Uppercase character...
-            if ((uint8(bStr[i]) >= 65) && (uint8(bStr[i]) <= 90)) {
-                // So we add 32 to make it lowercase
-                bLower[i] = bytes1(uint8(bStr[i]) + 32);
-            } else {
-                bLower[i] = bStr[i];
-            }
-        }
-        return string(bLower);
-    }
-    function uinttoString(uint256 value) internal pure returns (string memory) {
-        // Inspired by OraclizeAPI's implementation - MIT licence
-        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
-
-        if (value == 0) {
-            return "0";
-        }
-        uint256 temp = value;
-        uint256 digits;
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
-        }
-        bytes memory buffer = new bytes(digits);
-        uint256 index = digits - 1;
-        temp = value;
-        while (temp != 0) {
-            buffer[index--] = byte(uint8(48 + temp % 10));
-            temp /= 10;
-        }
-        return string(buffer);
-    }
-     /*-------------------------To Compare two strings---------------------------*/
-    function compare(string memory  _a, string memory _b) internal pure returns (int) {
-        bytes memory a = bytes(_a);
-        bytes memory b = bytes(_b);
-        uint minLength = a.length;
-        if (b.length < minLength) minLength = b.length;
-        for (uint i = 0; i < minLength; i ++)
-            if (a[i] < b[i])
-                return -1;
-            else if (a[i] > b[i])
-                return 1;
-        if (a.length < b.length)
-            return -1;
-        else if (a.length > b.length)
-            return 1;
-        else
-            return 0;
-    }
-
-    function equal(string memory _a, string memory _b) internal pure returns (bool) {
-        return compare(_a, _b) == 0;
-    }
-   function toString(address account) public pure returns(string memory) {
-    return toString(abi.encodePacked(account));
-}
-
-function toString(uint256 value) public pure returns(string memory) {
-    return toString(abi.encodePacked(value));
-}
-
-function toString(bytes32 value) public pure returns(string memory) {
-    return toString(abi.encodePacked(value));
-}
-
-function toString(bytes memory data) public pure returns(string memory) {
-    bytes memory alphabet = "0123456789abcdef";
-
-    bytes memory str = new bytes(2 + data.length * 2);
-    str[0] = "0";
-    str[1] = "x";
-    for (uint i = 0; i < data.length; i++) {
-        str[2+i*2] = alphabet[uint(uint8(data[i] >> 4))];
-        str[3+i*2] = alphabet[uint(uint8(data[i] & 0x0f))];
-    }
-    return string(str);
-}
 }
