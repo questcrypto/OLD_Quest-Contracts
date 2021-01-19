@@ -548,8 +548,13 @@
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {},
+<<<<<<< HEAD
   "schemaVersion": "3.3.2",
   "updatedAt": "2020-12-17T08:41:23.583Z",
+=======
+  "schemaVersion": "3.3.1",
+  "updatedAt": "2020-11-20T11:54:11.689Z",
+>>>>>>> parent of 4358be8... Backedn Included
   "devdoc": {
     "kind": "dev",
     "methods": {},

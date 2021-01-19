@@ -332,8 +332,13 @@
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {},
+<<<<<<< HEAD
   "schemaVersion": "3.3.2",
   "updatedAt": "2020-12-17T08:41:23.769Z",
+=======
+  "schemaVersion": "3.3.1",
+  "updatedAt": "2020-11-20T11:54:11.823Z",
+>>>>>>> parent of 4358be8... Backedn Included
   "devdoc": {
     "details": "Interface of the ERC165 standard, as defined in the https://eips.ethereum.org/EIPS/eip-165[EIP]. Implementers can declare support of contract interfaces, which can then be queried by others ({ERC165Checker}). For an implementation, see {ERC165}.",
     "kind": "dev",

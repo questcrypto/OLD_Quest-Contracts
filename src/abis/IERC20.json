@@ -48,7 +48,7 @@
           "type": "uint256"
         }
       ],
-      "name": "TransferPropToken",
+      "name": "Transfer",
       "type": "event"
     },
     {
@@ -208,14 +208,23 @@
       "type": "function"
     }
   ],
+<<<<<<< HEAD
   "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"issuetoken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"events\":{\"Approval(address,address,uint256)\":{\"details\":\"Emitted when the allowance of a spender for an owner is set by a call to {approve}. value is the new allowance.\"}},\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/Users/Prerna/Desktop/QuestCrypt/QuestCrypto/src/contracts/IERC20.sol\":\"IERC20\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/Prerna/Desktop/QuestCrypt/QuestCrypto/src/contracts/IERC20.sol\":{\"keccak256\":\"0x68174db574baab154173beb401f9a893f8d2aef8ff1becc8bc2e605e15ff528c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://28e01a9fc8ad00d937247dbd06667e4287106000b0e6ccd5ad2ab4d358edc871\",\"dweb:/ipfs/QmSruTtgdE81mpMcuBZX5qMB1FnKuQyXeyjJ6phEasLas1\"]}},\"version\":1}",
+=======
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface of the ERC20 standard as defined in the EIP.\",\"events\":{\"Approval(address,address,uint256)\":{\"details\":\"Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance.\"},\"Transfer(address,address,uint256)\":{\"details\":\"Emitted when `value` tokens are moved from one account (`from`) to another (`to`). Note that `value` may be zero.\"}},\"kind\":\"dev\",\"methods\":{\"allowance(address,address)\":{\"details\":\"Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default. This value changes when {approve} or {transferFrom} are called.\"},\"approve(address,uint256)\":{\"details\":\"Sets `amount` as the allowance of `spender` over the caller's tokens. Returns a boolean value indicating whether the operation succeeded. IMPORTANT: Beware that changing an allowance with this method brings the risk that someone may use both the old and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729 Emits an {Approval} event.\"},\"balanceOf(address)\":{\"details\":\"Returns the amount of tokens owned by `account`.\"},\"totalSupply()\":{\"details\":\"Returns the amount of tokens in existence.\"},\"transfer(address,uint256)\":{\"details\":\"Moves `amount` tokens from the caller's account to `recipient`. Returns a boolean value indicating whether the operation succeeded. Emits a {Transfer} event.\"},\"transferFrom(address,address,uint256)\":{\"details\":\"Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism. `amount` is then deducted from the caller's allowance. Returns a boolean value indicating whether the operation succeeded. Emits a {Transfer} event.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/MyProjects/Code2Learn/Quest/nft/src/contracts/IERC20.sol\":\"IERC20\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/MyProjects/Code2Learn/Quest/nft/src/contracts/IERC20.sol\":{\"keccak256\":\"0x95bc363907d2793dbc5ab548e1da77a5d1340e5062a6bcd640f706348e0e2f17\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fafea5c7a8c0c42598571c87b01e3c39d87eeb6a93a48da3fcd1afc4a5724bd6\",\"dweb:/ipfs/QmXx8srPSPWKwYKFMySqsBmtRz5h6io8TJrc9dTruJjHEp\"]}},\"version\":1}",
+>>>>>>> parent of 4358be8... Backedn Included
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
   "sourceMap": "",
   "deployedSourceMap": "",
+<<<<<<< HEAD
   "source": "// SPDX-License-Identifier: MIT\r\n\r\npragma solidity ^0.6.0;\r\n\r\n/* @dev Interface of the ERC20 standard as defined in the EIP.\r\n */\r\ninterface IERC20 {\r\n    /* @dev Returns the amount of tokens in existence.\r\n     */\r\n    function totalSupply() external view returns (uint256);\r\n\r\n    /* @dev Returns the amount of tokens owned by `account`.\r\n     */\r\n    function balanceOf(address account) external view returns (uint256);\r\n\r\n    /* @dev Moves amount tokens from the caller's account to recipient.\r\n     *\r\n     * Returns a boolean value indicating whether the operation succeeded.\r\n     *\r\n     * Emits a {Transfer} event.\r\n     */\r\n    function transfer(address sender,address recipient, uint256 amount) external returns (bool);\r\n\r\n    /* @dev Returns the remaining number of tokens that `spender` will be\r\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\r\n     * zero by default.\r\n     *\r\n     * This value changes when {approve} or {transferFrom} are called.\r\n     */\r\n    function allowance(address owner, address spender) external view returns (uint256);\r\n\r\n    /* @dev Sets amount as the allowance of spender over the caller's tokens.\r\n     *\r\n     * Returns a boolean value indicating whether the operation succeeded.\r\n     *\r\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\r\n     * that someone may use both the old and the new allowance by unfortunate\r\n     * transaction ordering. One possible solution to mitigate this race\r\n     * condition is to first reduce the spender's allowance to 0 and set the\r\n     * desired value afterwards:\r\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\r\n     *\r\n     * Emits an {Approval} event.\r\n     */\r\n    function approve(address spender, uint256 amount) external returns (bool);\r\n\r\n    /* @dev Moves `amount` tokens from `sender` to `recipient` using the\r\n     * allowance mechanism. `amount` is then deducted from the caller's\r\n     * allowance.\r\n     *\r\n     * Returns a boolean value indicating whether the operation succeeded.\r\n     *\r\n     * Emits a {Transfer} event.\r\n     */\r\n    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);\r\n    \r\n    \r\n    function issuetoken(address account, uint256 amount) external;\r\n\r\n    /* @dev Emitted when value tokens are moved from one account (from) to\r\n     * another (to).\r\n     *\r\n     * Note that value may be zero.\r\n     */\r\n    event Transfer(address indexed from, address indexed to, uint256 value);\r\n\r\n    /**\r\n     * @dev Emitted when the allowance of a spender for an owner is set by\r\n     * a call to {approve}. value is the new allowance.\r\n     */\r\n    event Approval(address indexed owner, address indexed spender, uint256 value);\r\n}",
   "sourcePath": "C:\\Users\\Prerna\\Desktop\\QuestCrypt\\QuestCrypto\\src\\contracts\\IERC20.sol",
+=======
+  "source": "// SPDX-License-Identifier: MIT\r\n\r\npragma solidity ^0.6.0;\r\n\r\n/**\r\n * @dev Interface of the ERC20 standard as defined in the EIP.\r\n */\r\ninterface IERC20 {\r\n    /**\r\n     * @dev Returns the amount of tokens in existence.\r\n     */\r\n    function totalSupply() external view returns (uint256);\r\n\r\n    /**\r\n     * @dev Returns the amount of tokens owned by `account`.\r\n     */\r\n    function balanceOf(address account) external view returns (uint256);\r\n\r\n    /**\r\n     * @dev Moves `amount` tokens from the caller's account to `recipient`.\r\n     *\r\n     * Returns a boolean value indicating whether the operation succeeded.\r\n     *\r\n     * Emits a {Transfer} event.\r\n     */\r\n    function transfer(address recipient, uint256 amount) external returns (bool);\r\n\r\n    /**\r\n     * @dev Returns the remaining number of tokens that `spender` will be\r\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\r\n     * zero by default.\r\n     *\r\n     * This value changes when {approve} or {transferFrom} are called.\r\n     */\r\n    function allowance(address owner, address spender) external view returns (uint256);\r\n\r\n    /**\r\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\r\n     *\r\n     * Returns a boolean value indicating whether the operation succeeded.\r\n     *\r\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\r\n     * that someone may use both the old and the new allowance by unfortunate\r\n     * transaction ordering. One possible solution to mitigate this race\r\n     * condition is to first reduce the spender's allowance to 0 and set the\r\n     * desired value afterwards:\r\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\r\n     *\r\n     * Emits an {Approval} event.\r\n     */\r\n    function approve(address spender, uint256 amount) external returns (bool);\r\n\r\n    /**\r\n     * @dev Moves `amount` tokens from `sender` to `recipient` using the\r\n     * allowance mechanism. `amount` is then deducted from the caller's\r\n     * allowance.\r\n     *\r\n     * Returns a boolean value indicating whether the operation succeeded.\r\n     *\r\n     * Emits a {Transfer} event.\r\n     */\r\n    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);\r\n\r\n    /**\r\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\r\n     * another (`to`).\r\n     *\r\n     * Note that `value` may be zero.\r\n     */\r\n    event Transfer(address indexed from, address indexed to, uint256 value);\r\n\r\n    /**\r\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\r\n     * a call to {approve}. `value` is the new allowance.\r\n     */\r\n    event Approval(address indexed owner, address indexed spender, uint256 value);\r\n}",
+  "sourcePath": "C:\\MyProjects\\Code2Learn\\Quest\\nft\\src\\contracts\\IERC20.sol",
+>>>>>>> parent of 4358be8... Backedn Included
   "ast": {
     "absolutePath": "/C/Users/Prerna/Desktop/QuestCrypt/QuestCrypto/src/contracts/IERC20.sol",
     "exportedSymbols": {
@@ -1012,7 +1021,7 @@
             "anonymous": false,
             "documentation": null,
             "id": 2968,
-            "name": "TransferPropToken",
+            "name": "Transfer",
             "nodeType": "EventDefinition",
             "parameters": {
               "id": 2967,
@@ -1027,7 +1036,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2968,
+<<<<<<< HEAD
                   "src": "2479:20:8",
+=======
+                  "src": "2468:20:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1038,7 +1051,11 @@
                     "id": 2961,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2479:7:8",
+=======
+                    "src": "2468:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1057,7 +1074,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2968,
+<<<<<<< HEAD
                   "src": "2501:18:8",
+=======
+                  "src": "2490:18:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1068,7 +1089,11 @@
                     "id": 2963,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2501:7:8",
+=======
+                    "src": "2490:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1087,7 +1112,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2968,
+<<<<<<< HEAD
                   "src": "2521:13:8",
+=======
+                  "src": "2510:13:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1098,7 +1127,11 @@
                     "id": 2965,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2521:7:8",
+=======
+                    "src": "2510:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1108,17 +1141,28 @@
                   "visibility": "internal"
                 }
               ],
+<<<<<<< HEAD
               "src": "2478:57:8"
             },
             "src": "2464:72:8"
+=======
+              "src": "2467:57:9"
+            },
+            "src": "2453:72:9"
+>>>>>>> parent of 4358be8... Backedn Included
           },
           {
             "anonymous": false,
             "documentation": {
               "id": 2969,
               "nodeType": "StructuredDocumentation",
+<<<<<<< HEAD
               "src": "2544:145:8",
               "text": " @dev Emitted when the allowance of a spender for an owner is set by\n a call to {approve}. value is the new allowance."
+=======
+              "src": "2533:151:9",
+              "text": " @dev Emitted when the allowance of a `spender` for an `owner` is set by\n a call to {approve}. `value` is the new allowance."
+>>>>>>> parent of 4358be8... Backedn Included
             },
             "id": 2977,
             "name": "Approval",
@@ -1136,7 +1180,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2977,
+<<<<<<< HEAD
                   "src": "2710:21:8",
+=======
+                  "src": "2705:21:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1147,7 +1195,11 @@
                     "id": 2970,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2710:7:8",
+=======
+                    "src": "2705:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1166,7 +1218,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2977,
+<<<<<<< HEAD
                   "src": "2733:23:8",
+=======
+                  "src": "2728:23:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1177,7 +1233,11 @@
                     "id": 2972,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2733:7:8",
+=======
+                    "src": "2728:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1196,7 +1256,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2977,
+<<<<<<< HEAD
                   "src": "2758:13:8",
+=======
+                  "src": "2753:13:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1207,7 +1271,11 @@
                     "id": 2974,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2758:7:8",
+=======
+                    "src": "2753:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1217,6 +1285,7 @@
                   "visibility": "internal"
                 }
               ],
+<<<<<<< HEAD
               "src": "2709:63:8"
             },
             "src": "2695:78:8"
@@ -1227,6 +1296,18 @@
       }
     ],
     "src": "35:2741:8"
+=======
+              "src": "2704:63:9"
+            },
+            "src": "2690:78:9"
+          }
+        ],
+        "scope": 2979,
+        "src": "136:2635:9"
+      }
+    ],
+    "src": "35:2736:9"
+>>>>>>> parent of 4358be8... Backedn Included
   },
   "legacyAST": {
     "absolutePath": "/C/Users/Prerna/Desktop/QuestCrypt/QuestCrypto/src/contracts/IERC20.sol",
@@ -2024,7 +2105,7 @@
             "anonymous": false,
             "documentation": null,
             "id": 2968,
-            "name": "TransferPropToken",
+            "name": "Transfer",
             "nodeType": "EventDefinition",
             "parameters": {
               "id": 2967,
@@ -2039,7 +2120,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2968,
+<<<<<<< HEAD
                   "src": "2479:20:8",
+=======
+                  "src": "2468:20:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2050,7 +2135,11 @@
                     "id": 2961,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2479:7:8",
+=======
+                    "src": "2468:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2069,7 +2158,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2968,
+<<<<<<< HEAD
                   "src": "2501:18:8",
+=======
+                  "src": "2490:18:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2080,7 +2173,11 @@
                     "id": 2963,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2501:7:8",
+=======
+                    "src": "2490:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2099,7 +2196,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2968,
+<<<<<<< HEAD
                   "src": "2521:13:8",
+=======
+                  "src": "2510:13:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2110,7 +2211,11 @@
                     "id": 2965,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2521:7:8",
+=======
+                    "src": "2510:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2120,17 +2225,28 @@
                   "visibility": "internal"
                 }
               ],
+<<<<<<< HEAD
               "src": "2478:57:8"
             },
             "src": "2464:72:8"
+=======
+              "src": "2467:57:9"
+            },
+            "src": "2453:72:9"
+>>>>>>> parent of 4358be8... Backedn Included
           },
           {
             "anonymous": false,
             "documentation": {
               "id": 2969,
               "nodeType": "StructuredDocumentation",
+<<<<<<< HEAD
               "src": "2544:145:8",
               "text": " @dev Emitted when the allowance of a spender for an owner is set by\n a call to {approve}. value is the new allowance."
+=======
+              "src": "2533:151:9",
+              "text": " @dev Emitted when the allowance of a `spender` for an `owner` is set by\n a call to {approve}. `value` is the new allowance."
+>>>>>>> parent of 4358be8... Backedn Included
             },
             "id": 2977,
             "name": "Approval",
@@ -2148,7 +2264,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2977,
+<<<<<<< HEAD
                   "src": "2710:21:8",
+=======
+                  "src": "2705:21:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2159,7 +2279,11 @@
                     "id": 2970,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2710:7:8",
+=======
+                    "src": "2705:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2178,7 +2302,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2977,
+<<<<<<< HEAD
                   "src": "2733:23:8",
+=======
+                  "src": "2728:23:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2189,7 +2317,11 @@
                     "id": 2972,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2733:7:8",
+=======
+                    "src": "2728:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2208,7 +2340,11 @@
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
                   "scope": 2977,
+<<<<<<< HEAD
                   "src": "2758:13:8",
+=======
+                  "src": "2753:13:9",
+>>>>>>> parent of 4358be8... Backedn Included
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2219,7 +2355,11 @@
                     "id": 2974,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
+<<<<<<< HEAD
                     "src": "2758:7:8",
+=======
+                    "src": "2753:7:9",
+>>>>>>> parent of 4358be8... Backedn Included
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2229,6 +2369,7 @@
                   "visibility": "internal"
                 }
               ],
+<<<<<<< HEAD
               "src": "2709:63:8"
             },
             "src": "2695:78:8"
@@ -2239,18 +2380,42 @@
       }
     ],
     "src": "35:2741:8"
+=======
+              "src": "2704:63:9"
+            },
+            "src": "2690:78:9"
+          }
+        ],
+        "scope": 2979,
+        "src": "136:2635:9"
+      }
+    ],
+    "src": "35:2736:9"
+>>>>>>> parent of 4358be8... Backedn Included
   },
   "compiler": {
     "name": "solc",
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {},
+<<<<<<< HEAD
   "schemaVersion": "3.3.2",
   "updatedAt": "2020-12-17T08:41:23.773Z",
+=======
+  "schemaVersion": "3.3.1",
+  "updatedAt": "2020-11-20T11:54:11.825Z",
+>>>>>>> parent of 4358be8... Backedn Included
   "devdoc": {
     "events": {
       "Approval(address,address,uint256)": {
+<<<<<<< HEAD
         "details": "Emitted when the allowance of a spender for an owner is set by a call to {approve}. value is the new allowance."
+=======
+        "details": "Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance."
+      },
+      "Transfer(address,address,uint256)": {
+        "details": "Emitted when `value` tokens are moved from one account (`from`) to another (`to`). Note that `value` may be zero."
+>>>>>>> parent of 4358be8... Backedn Included
       }
     },
     "kind": "dev",

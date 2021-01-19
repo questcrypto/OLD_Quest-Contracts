@@ -109,7 +109,11 @@ contract Property {
     emit TokenCreated(address(QuestEquity));
     return address(QuestEquity);
        
+<<<<<<< HEAD
   }
+=======
+   }
+>>>>>>> parent of 4358be8... Backedn Included
   
   function IncreaseUtilityTokenSupply(uint256 no_of_token) internal  {
   
@@ -158,13 +162,23 @@ function searchPropertyOwner(address property_owner,string memory property_name)
   
 }
 
+<<<<<<< HEAD
     function totalProperties()public view returns(uint256){
     uint256 len = properties.length;
     
     return len;
     
+=======
+function totalProperties()public view returns(uint256){
+    
+    return properties.length;
+>>>>>>> parent of 4358be8... Backedn Included
 }
     
     
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 4358be8... Backedn Included

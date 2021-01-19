@@ -1418,8 +1418,13 @@
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {},
+<<<<<<< HEAD
   "schemaVersion": "3.3.2",
   "updatedAt": "2020-12-17T08:41:23.609Z",
+=======
+  "schemaVersion": "3.3.1",
+  "updatedAt": "2020-11-20T11:54:11.691Z",
+>>>>>>> parent of 4358be8... Backedn Included
   "devdoc": {
     "details": "Implementation of the {IERC165} interface. Contracts may inherit from this and call {_registerInterface} to declare their support of an interface.",
     "kind": "dev",

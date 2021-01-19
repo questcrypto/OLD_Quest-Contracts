@@ -82,10 +82,13 @@
   "author": "rsi@rapidinnovation.dev",
   "dependencies": {
     "@openzeppelin/contracts": "^2.3.0",
+<<<<<<< HEAD
     "@types/dotenv": "^8.2.0",
     "@truffle/hdwallet-provider": "^1.2.0",
     "@uniswap/v2-core": "^1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
+=======
+>>>>>>> parent of 4358be8... Backedn Included
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-es2015": "6.24.1",
@@ -96,8 +99,11 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chai-bignumber": "3.0.0",
+<<<<<<< HEAD
     "dotenv": "^8.2.0",
     "ethereumjs-tx": "^1.3.7",
+=======
+>>>>>>> parent of 4358be8... Backedn Included
     "react": "16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-breadcrumbs": "^2.1.7",
