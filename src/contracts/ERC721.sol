@@ -13,23 +13,36 @@ import "./Address.sol";
 import "./EnumerableSet.sol";
 import "./EnumerableMap.sol";
 import "./Strings.sol";
-
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
  * @dev see https://eips.ethereum.org/EIPS/eip-721
  */
 contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable {
+    
     using SafeMath for uint256;
     using Address for address;
     using EnumerableSet for EnumerableSet.UintSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
     using Strings for uint256;
     
+    
     uint256 _id = 1;
+    
+    // Token name
+    string private _name;
 
-    // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
-    // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
-    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
+    // Token symbol
+    string private _symbol;
+    
+    //Deployed Address of Contract Property  
+    address propertyAddress;
+    
+    //Address of this contract Deployer 
+    address public contractOwner;
+    
+    // Base URI
+    string private _baseURI = "https://mydomain.com/meta.php?nftid=";
+    
 
     // Mapping from holder address to their (enumerable) set of owned tokens
     mapping (address => EnumerableSet.UintSet) private _holderTokens;
@@ -43,14 +56,12 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
     // Mapping from owner to operator approvals
     mapping (address => mapping (address => bool)) private _operatorApprovals;
 
-    // Token name
-    string private _name;
-
-    // Token symbol
-    string private _symbol;
-
     // Optional mapping for token URIs
     mapping (uint256 => string) private _tokenURIs;
+    
+    mapping(uint256 => propertyDetail) public propertyDetails;
+    
+  
     
     // Adding metaData to the property
     
@@ -58,59 +69,41 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
         uint256 tokesIssued;
     }
     
-    struct PropertyValue{
-     uint OrginalValue;
-     uint CurrentValue;
-     uint OriginalIssuanceRate;
-     mapping (uint256 => _IssuanceDetail) IssuanceDetails;
-    }
+    // Struct for Issuance , propertyDetails
     
-    // Metadata values
-    
-    
-    struct Property_coins_generated_till_now{
+    struct issuanceDetail {
         
-        uint256 coin_issue;
-        uint256 org_val;
-        uint256 equity_at_issuance;
-        uint256 curr_val;
-        uint256 tot_curr_val; 
-        uint256 increase;
-    
-    }
-    
-    struct Prop_Value_Details{
-
-        uint256 Orig_Value;//Original Value of the Property
-        uint256 Curr_Value;//Current value of the Property
-        uint256 next_reevaluation_date;
-        Property_coins_generated_till_now[] coins_issue;
-        Property_coins_generated_till_now total_coins_issue;
-        string[] Property_images;
-        string[] Property_location;
-        uint256 taxes;
-        uint256 insurance;
-        uint256 maintainence;
-        uint256 total;
-        uint256 monthly_hoa_payment;
-        string property_features;
-    
+        uint256 propertyTokensIssued;
+        uint256 valueAtIssuance;
+        uint256  timeStamp;
+        
     }
     
     
-    address[] public EligibleEmp;
-    address public contractOwner;
-    uint256 nftPrice;
-    uint256 public tot_no_of_prop_onplatform = 0;
-    mapping(uint256 => Prop_Value_Details) public prop;
+    struct propertyDetail  {
+        
+        uint256 originalValue;
+        uint256 currentValue;
+        uint256 originalIssuanceRate;
+        uint256 totalCurrentValue;
+        uint256 variation;
+        string[] propertyImageHash;
+        string[] Address;
+        uint256 Tax;
+        uint256 Insurance;
+        uint256 Maintenance;
+        string propertyFeatures;
+        uint NoOfIssuance;
+        mapping(uint256 => issuanceDetail ) issuanceDetails;
+        
+    }
     
     
-    // 
-    
-    mapping (uint256 => PropertyValue) public _propertyValue;
-
-    // Base URI
-    string private _baseURI;
+    /*     
+     *     Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
+     *     which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
+     */ 
+    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
     /*
      *     bytes4(keccak256('balanceOf(address)')) == 0x70a08231
@@ -145,18 +138,14 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      *     => 0x18160ddd ^ 0x2f745c59 ^ 0x4f6ccce7 == 0x780e9d63
      */
     bytes4 private constant _INTERFACE_ID_ERC721_ENUMERABLE = 0x780e9d63;
-
+    
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor (string memory name, string memory symbol ) public {
-        _name = name;
-        _symbol = symbol;
-        
-        
-
-    
-        
+    constructor () public {
+        _name = "StrategicNft";
+        _symbol = "SNFT";
+        contractOwner = msg.sender;
 
         // register the supported interfaces to conform to ERC721 via ERC165
         _registerInterface(_INTERFACE_ID_ERC721);
@@ -192,6 +181,11 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function symbol() public view override returns (string memory) {
         return _symbol;
+    }
+    
+    function setPropertyContractAddress(address _address) public  {
+        require(msg.sender == contractOwner);
+        propertyAddress = _address;
     }
 
     /**
@@ -369,18 +363,18 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      *
      * Emits a {Transfer} event.
      */
-    // function _safeMint(address to, uint256 tokenId, uint OrginalValue) internal virtual {
-    //     _safeMint(to, tokenId, OrginalValue);
-    // }
+    function _safeMint(address to, uint256 tokenId) internal virtual {
+        _safeMint(to, tokenId, "");
+    }
 
     /**
      * @dev Same as {xref-ERC721-_safeMint-address-uint256-}[`_safeMint`], with an additional `data` parameter which is
      * forwarded in {IERC721Receiver-onERC721Received} to contract recipients.
      */
-    // function _safeMint(address to, uint256 tokenId, bytes memory _data, uint OrginalValue) internal virtual {
-    //     _mint(to, tokenId,origVal,currVal,date,coins,property_images,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop);
-    //     require(_checkOnERC721Received(address(0), to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
-    // }
+    function _safeMint(address to, uint256 tokenId, bytes memory _data) internal virtual {
+       // _mint(to, tokenId);
+        require(_checkOnERC721Received(address(0), to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
+    }
 
     /**
      * @dev Mints `tokenId` and transfers it to `to`.
@@ -394,61 +388,67 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      *
      * Emits a {Transfer} event.
      */
-    function _mint(uint256 origVal,
-                                     uint256 coins,
+     
+ 
+    function _mint(address owner,uint256 origVal,uint256 coins,
                                      string[] memory property_images,
                                      string[] memory pro_add_details,
                                      uint prop_tax,
                                      uint prop_insurance,
                                      uint prop_maintainence,
-                                     string memory features_prop) internal virtual {
-                                        uint256 tokenId = _id;
-                                        _id++;
-        require(msg.sender != address(0), "ERC721: mint to the zero address");
+                                     string memory features_prop) public override{
+                                         
+                                         
+        uint256 tokenId = _id;
+        _id++;
+        require(msg.sender == contractOwner || msg.sender == propertyAddress);
+        require(owner != address(0), "ERC721: mint to the zero address");
         require(!_exists(tokenId), "ERC721: token already minted");
 
-        _beforeTokenTransfer(address(0), msg.sender, tokenId);
+        _beforeTokenTransfer(address(0), owner, tokenId);
 
-        _holderTokens[msg.sender].add(tokenId);
+        _holderTokens[owner].add(tokenId);
 
-        _tokenOwners.set(tokenId, msg.sender);
+        _tokenOwners.set(tokenId, owner);
         
-        Property_coins_generated_till_now memory coinsdetails;
-    
-        coinsdetails.coin_issue = coins;
-        coinsdetails.org_val = origVal;
-        coinsdetails.equity_at_issuance = 0;
-
-        //uint temp = 0;
-        //uint temp1=  (temp.mul(origVal)).div(origVal);
-    
-        coinsdetails.curr_val = 1;
-        coinsdetails.tot_curr_val = origVal;
+        propertyDetails[tokenId].originalValue = origVal;
+        propertyDetails[tokenId].currentValue = origVal;
+        propertyDetails[tokenId].originalIssuanceRate = (coins.mul(100)).div(origVal);
+        propertyDetails[tokenId].propertyImageHash = property_images;
+        propertyDetails[tokenId].Address = pro_add_details;
+        propertyDetails[tokenId].Tax = prop_tax;
+        propertyDetails[tokenId].Insurance = prop_insurance;
+        propertyDetails[tokenId].Maintenance = prop_maintainence;
+        propertyDetails[tokenId].propertyFeatures = features_prop;
+        propertyDetails[tokenId].issuanceDetails[0].propertyTokensIssued = origVal;
+        propertyDetails[tokenId].issuanceDetails[0].valueAtIssuance = origVal;
+        propertyDetails[tokenId].issuanceDetails[0].timeStamp = now;
+        propertyDetails[tokenId].NoOfIssuance= 0;
         
-        //uint curr = coinsdetails.tot_curr_val;
-        //uint orig=  ((coinsdetails.org_val).mul(coins)).div(origVal);
-            
-        coinsdetails.increase = 0;
-           
-        prop[tokenId].Orig_Value = origVal;
-        prop[tokenId].Curr_Value = origVal;
-        prop[tokenId].next_reevaluation_date = now;
-        prop[tokenId].Property_images = property_images;    
-        prop[tokenId].Property_location = pro_add_details;
-        prop[tokenId].coins_issue.push(coinsdetails);
-        prop[tokenId].total_coins_issue = coinsdetails;  
-        prop[tokenId].taxes = prop_tax;
-        prop[tokenId].insurance = prop_insurance;
-        prop[tokenId].maintainence = prop_maintainence;
-        prop[tokenId].total = (prop_tax.add(prop_insurance)).add(prop_maintainence);
-       // prop[tokenId] .monthly_hoa_payment = (prop[tokenId].total).div(12);
-        prop[tokenId].property_features = features_prop;
-        address to = msg.sender;
-       // emit Transfer(address(0), msg.sender, tokenId);
-        emit Transfer(address(0), to , tokenId);
         
+        emit Transfer(address(0), owner , tokenId);
         
     }
+    
+    function _getValues(uint256 id, uint256 TokenId) public view returns( issuanceDetail memory){
+      
+        return propertyDetails[TokenId].issuanceDetails[id];
+      
+    }
+  
+  
+    // This fucntions enables isssunace of second set of token;
+  
+    function _isssueToken(uint256 Tokenvalue, uint256 TokenId) public{
+      
+        require(contractOwner == msg.sender || msg.sender == propertyAddress, "Unauthorized User");
+        uint256 index = SafeMath.add(propertyDetails[TokenId].NoOfIssuance, 1);
+        propertyDetails[TokenId].issuanceDetails[index].propertyTokensIssued = Tokenvalue;
+        propertyDetails[TokenId].issuanceDetails[index].timeStamp = now;
+        propertyDetails[TokenId].issuanceDetails[index].valueAtIssuance = propertyDetails[TokenId].currentValue;
+      
+    }
+  
 
     /**
      * @dev Destroys `tokenId`.
@@ -467,6 +467,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
 
         // Clear approvals
         _approve(address(0), tokenId);
+
+
 
         // Clear metadata (if any)
         if (bytes(_tokenURIs[tokenId]).length != 0) {
