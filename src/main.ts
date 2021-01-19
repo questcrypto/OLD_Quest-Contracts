@@ -7,7 +7,6 @@ import ConfigService from './Services/config.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  console.log(process.env.HTTP_PORT);
   // var configservice = app.get(ConfigService);
   // console.log(configservice.get('port', 4500));
   const configService = app.select(ConfigModule).get(ConfigService);
