@@ -83,6 +83,7 @@ class App extends Component {
     this.state.contract.methods.mint(property,orgValue,coins,propert_image,pro_add_details,prop_tax,prop_insurance,prop_maintainence,features_prop).send({ from: this.state.account })
     .then('receipt', (receipt) => {
       console.log("Got response")
+
       this.setState({
         properties: [...this.state.properties, property]
       })
@@ -122,7 +123,12 @@ class App extends Component {
                     <form onSubmit={(event)=>{
                       event.preventDefault();
                       const propStr = this.prop.value;
-                      this.mint(propStr);
+                      let img = ["abc","def"];
+                      let orval=50000;
+                      let tx =550;
+                      let otdetail = "{'Roof':'Asphault Shingle','Heating':'Forced Air','AirConditioning':'Central','FloorHardwood':'Carpet','WindowCovering':'None','Pool':'Yes','PoolFeatures':'Heated, filtered','Exterior':'Brick 70%','Landscaping':'Yes','LotFacts':'.25 Acre','ExteriorFeatures':'Brick','InteriorFeatures':'','Amenities':'','Zoning':'Residential','Type':'SFR','Style':'Rambler','YearBuilt':'1977','Acres':'0.25', 'Deck':'Yes','Patio':'Yes','Garage':'2 Car','Carport':'No','ParkingSpaces':'3','FinBsmt':'95%','Basement':'Yes','Driveway':'Yes','Water':'City','WaterShares':'None','Spa':'None','Comments':'Central Valley Home In Taylorsville with a large backyard pool. Completely remodeled in 2016 everything up to date. 6 Bedrooms and 2 Full bathrooms.Living Room and Downstairs family room laundry room etc… and a true 2 car garage'}";
+                      let add=["{'Address1':'5284 S Ridgecrest','Address2':'','City':'Taylorsville','State':'UT','PostalCode':'84129','County/region':'Salt Lake County','Subdivision':'Heinz 57','TaxID': '01-2222-548','Zoning':'R-1','SchoolDistrict':'Granite','Elementary':'Eccles', 'JrHigh':'Johnson','HighSchool':'Bennion'}"]
+                      this.mint(propStr,orval,orval,img,add,tx,tx,tx,otdetail);
                     }}>
                       <label>
                       Enter Property Name:
@@ -187,114 +193,3 @@ class App extends Component {
 }
 
 export default App;
-// import React, { Component } from 'react';
-// function Square(props) {
-//   return (
-//     <button className="square" onClick={props.onClick}>
-//       {props.value}
-//     </button>
-//   );
-// }
-
-// class Board extends React.Component {
-//   constructor(props) {
-//     super(props); 
-//     this.state = {
-//       squares: Array(9).fill(null),
-//       xIsNext: true,
-//     };
-//   }
-
-//   handleClick(i) {
-//     const squares = this.state.squares.slice();
-//     if (calculateWinner(squares) || squares[i]) {
-//       return;
-//     }
-//     squares[i] = this.state.xIsNext ? 'X' : 'O';
-//     this.setState({
-//       squares: squares,
-//       xIsNext: !this.state.xIsNext,
-//     });
-//   }
-
-//   renderSquare(i) {
-//     return (
-//       <Square
-//         value={this.state.squares[i]}
-//         onClick={() => this.handleClick(i)}
-//       />
-//     );
-//   }
-
-//   render() {
-//     const winner = calculateWinner(this.state.squares);
-//     let status;
-//     if (winner) {
-//       status = 'Winner: ' + winner;
-//     } else {
-//       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-//     }
-
-//     return (
-//       <div>
-//         <div className="status">{status}</div>
-//         <div className="board-row">
-//           {this.renderSquare(0)}
-//           {this.renderSquare(1)}
-//           {this.renderSquare(2)}
-//         </div>
-//         <div className="board-row">
-//           {this.renderSquare(3)}
-//           {this.renderSquare(4)}
-//           {this.renderSquare(5)}
-//         </div>
-//         <div className="board-row">
-//           {this.renderSquare(6)}
-//           {this.renderSquare(7)}
-//           {this.renderSquare(8)}
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// class Game extends React.Component {
-//   render() {
-//     return (
-//       <div className="game">
-//         <div className="game-board">
-//           <Board />
-//         </div>
-//         <div className="game-info">
-//           <div>{/* status */}</div>
-//           <ol>{/* TODO */}</ol>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// // ========================================
-
-
-// function calculateWinner(squares) {
-//   const lines = [
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8],
-//     [0, 3, 6],
-//     [1, 4, 7],
-//     [2, 5, 8],
-//     [0, 4, 8],
-//     [2, 4, 6],
-//   ];
-//   for (let i = 0; i < lines.length; i++) {
-//     const [a, b, c] = lines[i];
-//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-//       return squares[a];
-//     }
-//   }
-//   return null;
-// }
-
-// export default Game;

@@ -41,7 +41,7 @@ contract Property is ERC721 {
        proptest = address(t);
        emit TokenCreated(address(t));
        
-   }
+   } 
   
   
 
@@ -51,11 +51,11 @@ contract Property is ERC721 {
   
 } 
 
-function totalProperties()public view returns(uint256){
-    
-    return properties.length;
+    function totalProperties()public view returns(uint256){
+    uint256 len = properties.length;
+    return len;
 }
     
 
-}
+} 
 
